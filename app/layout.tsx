@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { site } from "@/content/site";
+import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 /**
@@ -12,8 +13,6 @@ import "./globals.css";
  */
 const FONT_CSS =
   "https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap";
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.ninam.org";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
