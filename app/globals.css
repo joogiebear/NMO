@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design tokens
+   Warm, human, unmistakably a neighborhood organization rather than a hospital
+   foundation. Deep plum carries the brand (it is also the pancreatic cancer
+   ribbon color); marigold is the warmth and the call to action.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-paper:        #FCF9F6;
+  --color-card:         #FFFFFF;
+  --color-band:         #F6EFE7;
+  --color-plum:         #592C6C;
+  --color-plum-deep:    #3B1B4A;
+  --color-plum-tint:    #F1E7F5;
+  --color-gold:         #A9660B;
+  --color-gold-bright:  #E29A2C;
+  --color-gold-tint:    #FBEFDA;
+  --color-ink:          #2B2032;
+  --color-ink-soft:     #4F4257;
+  --color-muted:        #7A6C82;
+  --color-line:         #E7DCD3;
+  --color-line-strong:  #D2C2BC;
+
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "Archivo", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+
+  --shadow-soft: 0 1px 2px rgba(43, 32, 50, 0.05), 0 12px 28px -16px rgba(43, 32, 50, 0.28);
+  --shadow-lift: 0 2px 4px rgba(43, 32, 50, 0.06), 0 22px 44px -20px rgba(43, 32, 50, 0.34);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.018em;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  p { text-wrap: pretty; }
+
+  :focus-visible {
+    outline: 3px solid var(--color-gold-bright);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-plum);
+    color: var(--color-paper);
+  }
+
+  input, textarea, select {
+    font: inherit;
+    color: inherit;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* A soft warm wash used behind hero and closing sections. */
+  .warm-wash {
+    background-image:
+      radial-gradient(70ch 40ch at 12% -10%, var(--color-gold-tint), transparent 60%),
+      radial-gradient(60ch 45ch at 92% 0%, var(--color-plum-tint), transparent 62%);
+  }
+
+  /* Photo placeholders — visibly "your photo goes here" rather than broken. */
+  .photo-slot {
+    background-image:
+      linear-gradient(135deg, var(--color-gold-tint), transparent 55%),
+      linear-gradient(315deg, var(--color-plum-tint), transparent 58%);
+    background-color: var(--color-card);
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
