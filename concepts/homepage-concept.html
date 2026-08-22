@@ -1,0 +1,648 @@
+<title>Nina Mastro Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap">
+
+<style>
+/* ============ tokens ============ */
+:root{
+  --paper:#F4F0F2;
+  --surface:#FFFFFF;
+  --surface-2:#EDE7EA;
+  --ink:#241A2E;
+  --ink-soft:#4A3D55;
+  --muted:#6C5F74;
+  --line:#DCD3DA;
+  --line-strong:#C4B7C6;
+  --gold:#B26E0C;
+  --gold-bright:#D9911C;
+  --plum:#5B2D6E;
+  --plum-soft:#7A4A8E;
+  --glow-a:rgba(217,145,28,.30);
+  --glow-b:rgba(91,45,110,.28);
+  --shadow:0 1px 2px rgba(36,26,46,.06),0 10px 30px -14px rgba(36,26,46,.22);
+  --banner-h:44px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#15101B;
+    --surface:#1E1726;
+    --surface-2:#271E31;
+    --ink:#F1EBF3;
+    --ink-soft:#CFC3D6;
+    --muted:#A294AC;
+    --line:#342A40;
+    --line-strong:#4A3C58;
+    --gold:#F0B23C;
+    --gold-bright:#FFC862;
+    --plum:#C29BD6;
+    --plum-soft:#A97BC0;
+    --glow-a:rgba(240,178,60,.20);
+    --glow-b:rgba(169,123,192,.20);
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 40px -18px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#15101B;
+  --surface:#1E1726;
+  --surface-2:#271E31;
+  --ink:#F1EBF3;
+  --ink-soft:#CFC3D6;
+  --muted:#A294AC;
+  --line:#342A40;
+  --line-strong:#4A3C58;
+  --gold:#F0B23C;
+  --gold-bright:#FFC862;
+  --plum:#C29BD6;
+  --plum-soft:#A97BC0;
+  --glow-a:rgba(240,178,60,.20);
+  --glow-b:rgba(169,123,192,.20);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 40px -18px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;
+  font-size:17px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  padding-top:var(--banner-h);
+}
+img{max-width:100%}
+a{color:inherit}
+h1,h2,h3{text-wrap:balance;margin:0;font-family:Fraunces,Georgia,"Times New Roman",serif;font-weight:600;letter-spacing:-.015em;line-height:1.08}
+p{margin:0}
+
+.wrap{width:min(1120px,92vw);margin-inline:auto}
+.narrow{width:min(720px,92vw);margin-inline:auto}
+.sec{padding-block:clamp(64px,9vw,116px)}
+.stack{display:flex;flex-direction:column}
+.gap-s{gap:12px}.gap-m{gap:22px}.gap-l{gap:40px}.gap-xl{gap:56px}
+
+.eyebrow{
+  font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);margin:0;
+}
+.eyebrow.plum{color:var(--plum)}
+.lede{font-size:clamp(18px,2vw,21px);color:var(--ink-soft);line-height:1.6}
+.muted{color:var(--muted)}
+.small{font-size:14.5px;line-height:1.6}
+
+/* ============ concept banner ============ */
+.concept-bar{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  background:var(--plum);color:#fff;
+  display:flex;justify-content:center;align-items:center;gap:10px;
+  padding:11px 16px;text-align:center;
+  font-size:13px;line-height:1.35;letter-spacing:.005em;
+}
+:root[data-theme="dark"] .concept-bar,
+:root:not([data-theme="light"]) .concept-bar{color:#1A1220}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .concept-bar{color:#fff}}
+.concept-bar b{font-weight:700}
+
+/* ============ nav ============ */
+.nav{
+  position:sticky;top:var(--banner-h);z-index:50;
+  background:var(--paper);
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:14px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+.mark{
+  width:34px;height:34px;flex:none;border-radius:50%;
+  background:radial-gradient(circle at 32% 30%,var(--gold-bright),var(--plum) 78%);
+  display:grid;place-items:center;color:var(--paper);font-family:Fraunces,serif;font-size:15px;font-weight:700;
+}
+.brand-txt{display:flex;flex-direction:column;line-height:1.05}
+.brand-txt strong{font-family:Fraunces,serif;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.brand-txt span{font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.nav-links{display:flex;align-items:center;gap:26px}
+.nav-links a{font-size:14.5px;font-weight:500;text-decoration:none;color:var(--ink-soft);padding-block:4px;border-bottom:1.5px solid transparent}
+.nav-links a:hover{color:var(--ink);border-bottom-color:var(--gold)}
+@media(max-width:860px){.nav-links{display:none}}
+
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:Archivo,sans-serif;font-size:15px;font-weight:600;
+  padding:12px 22px;border-radius:999px;border:1.5px solid transparent;
+  text-decoration:none;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,background .15s ease;
+}
+.btn-primary{background:var(--plum);color:var(--paper);box-shadow:var(--shadow)}
+.btn-primary:hover{transform:translateY(-1px)}
+.btn-gold{background:var(--gold);color:#1A1220;box-shadow:var(--shadow)}
+.btn-gold:hover{transform:translateY(-1px)}
+.btn-ghost{border-color:var(--line-strong);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn-sm{padding:9px 18px;font-size:14px}
+a:focus-visible,button:focus-visible{outline:2.5px solid var(--gold);outline-offset:3px;border-radius:4px}
+
+/* ============ hero ============ */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+#lights{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.hero-in{position:relative;padding-block:clamp(72px,11vw,132px)}
+.hero-grid{display:grid;grid-template-columns:1.25fr .85fr;gap:clamp(32px,5vw,72px);align-items:end}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;align-items:start}}
+h1.hero-h{font-size:clamp(42px,7.2vw,84px);font-weight:600;letter-spacing:-.03em}
+h1.hero-h em{font-style:italic;font-weight:400;color:var(--gold)}
+.hero-sub{max-width:46ch;font-size:clamp(17px,1.8vw,20px);color:var(--ink-soft)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:6px}
+
+.ticket-note{
+  border:1px solid var(--line);border-left:3px solid var(--gold);
+  background:var(--surface);border-radius:3px;padding:20px 22px;box-shadow:var(--shadow);
+}
+.ticket-note h3{font-size:19px;margin-bottom:8px}
+
+/* ============ stat rail ============ */
+.rail{background:var(--surface);border-bottom:1px solid var(--line)}
+.rail-in{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+@media(max-width:760px){.rail-in{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--surface);padding:30px 24px;display:flex;flex-direction:column;gap:4px}
+.stat .n{
+  font-family:Fraunces,serif;font-size:clamp(30px,4vw,44px);font-weight:600;
+  letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums;color:var(--plum);
+}
+.stat .l{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+
+/* ============ generic section head ============ */
+.head{display:flex;flex-direction:column;gap:14px;max-width:62ch}
+.head h2{font-size:clamp(30px,4.3vw,46px)}
+
+/* ============ story ============ */
+.story{background:var(--surface-2)}
+.story-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,64px);align-items:start}
+@media(max-width:900px){.story-grid{grid-template-columns:1fr}}
+.portrait{
+  aspect-ratio:4/5;border-radius:3px;border:1px dashed var(--line-strong);
+  background:
+    linear-gradient(140deg,var(--glow-a),transparent 55%),
+    linear-gradient(320deg,var(--glow-b),transparent 60%),
+    var(--surface);
+  display:flex;flex-direction:column;justify-content:flex-end;gap:4px;padding:20px;
+}
+.slot-tag{font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.story-body{display:flex;flex-direction:column;gap:20px;font-size:17.5px;color:var(--ink-soft);max-width:60ch}
+.story-body strong{color:var(--ink);font-weight:600}
+.pullquote{
+  font-family:Fraunces,serif;font-style:italic;font-size:clamp(21px,2.6vw,27px);
+  line-height:1.35;color:var(--ink);border-top:1px solid var(--line-strong);
+  border-bottom:1px solid var(--line-strong);padding-block:22px;
+}
+
+/* ============ steps ============ */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+@media(max-width:860px){.steps{grid-template-columns:1fr}}
+.step{display:flex;flex-direction:column;gap:12px;padding-top:20px;border-top:2px solid var(--gold)}
+.step .num{font-family:Fraunces,serif;font-size:14px;font-weight:700;letter-spacing:.1em;color:var(--gold);font-variant-numeric:tabular-nums}
+.step h3{font-size:21px}
+.step p{font-size:15.5px;color:var(--muted);line-height:1.6}
+
+/* ============ recipients ============ */
+.years{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px}
+.year{
+  background:var(--surface);border:1px solid var(--line);border-radius:3px;
+  padding:20px;display:flex;flex-direction:column;gap:6px;min-height:150px;
+  transition:border-color .15s ease,transform .15s ease;
+}
+.year:hover{border-color:var(--gold);transform:translateY(-2px)}
+.year .y{font-family:Fraunces,serif;font-size:30px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.year .r{font-size:14px;color:var(--muted);margin-top:auto}
+
+/* ============ events ============ */
+.events{background:var(--surface-2)}
+.evt-list{display:flex;flex-direction:column;border-top:1px solid var(--line-strong)}
+.evt{
+  display:grid;grid-template-columns:120px 1fr auto;gap:24px;align-items:center;
+  padding:24px 4px;border-bottom:1px solid var(--line-strong);
+}
+@media(max-width:760px){.evt{grid-template-columns:1fr;gap:8px;align-items:start}}
+.evt-when{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.evt-name{font-family:Fraunces,serif;font-size:22px;font-weight:600}
+.evt-where{font-size:15px;color:var(--muted)}
+
+/* ============ giving (raffle-ticket cards) ============ */
+.give{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:860px){.give{grid-template-columns:1fr}}
+.tix{
+  position:relative;background:var(--surface);border:1px dashed var(--line-strong);
+  border-radius:4px;padding:26px 24px 24px;display:flex;flex-direction:column;gap:10px;
+}
+.tix::before,.tix::after{
+  content:"";position:absolute;width:16px;height:16px;border-radius:50%;
+  background:var(--paper);border:1px dashed var(--line-strong);top:50%;transform:translateY(-50%);
+}
+.tix::before{left:-9px;clip-path:inset(0 0 0 50%)}
+.tix::after{right:-9px;clip-path:inset(0 50% 0 0)}
+.tix h3{font-size:20px}
+.tix p{font-size:15px;color:var(--muted)}
+.tix .how{margin-top:auto;padding-top:14px;font-size:13.5px;font-weight:600;color:var(--gold);letter-spacing:.03em}
+
+/* ============ cta band ============ */
+.band{background:var(--plum);color:#F6F0F8;border-block:1px solid var(--line)}
+:root[data-theme="dark"] .band,:root:not([data-theme="light"]) .band{background:var(--surface);color:var(--ink)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .band{background:var(--plum);color:#F6F0F8}}
+.band h2{font-size:clamp(28px,4vw,42px);color:inherit}
+.band p{color:inherit;opacity:.85;max-width:52ch}
+.band .btn-gold{background:var(--gold-bright);color:#1A1220}
+
+/* ============ footer ============ */
+.foot{border-top:1px solid var(--line);background:var(--surface)}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px;padding-block:52px}
+@media(max-width:760px){.foot-grid{grid-template-columns:1fr}}
+.foot h4{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 12px;font-weight:600}
+.foot ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.foot a{font-size:15px;color:var(--ink-soft);text-decoration:none}
+.foot a:hover{color:var(--gold)}
+.foot-bottom{border-top:1px solid var(--line);padding-block:20px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+
+/* ============ rationale ============ */
+.why{background:var(--paper);border-top:4px double var(--line-strong)}
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+@media(max-width:760px){.why-grid{grid-template-columns:1fr}}
+.why-cell{background:var(--surface);padding:24px}
+.why-cell h4{margin:0 0 8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.why-cell.now h4{color:var(--muted)}
+.why-cell.next h4{color:var(--gold)}
+.why-cell ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:9px;font-size:15px;color:var(--ink-soft)}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .btn:hover,.year:hover{transform:none}
+}
+</style>
+
+<div class="concept-bar">
+  <span><b>Design concept</b> — an unofficial redesign proposal for the Nina Mastro Organization. This is not ninam.org and does not accept donations.</span>
+</div>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top">
+      <span class="mark" aria-hidden="true">N</span>
+      <span class="brand-txt">
+        <strong>Nina Mastro Organization</strong>
+        <span>Chicago · 501(c)(3)</span>
+      </span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#story">Nina's Story</a>
+      <a href="#how">How We Give</a>
+      <a href="#recipients">Recipients</a>
+      <a href="#events">Events</a>
+      <a href="#give">Ways to Give</a>
+    </nav>
+    <a class="btn btn-gold btn-sm" href="#give">Donate</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <canvas id="lights" aria-hidden="true"></canvas>
+    <div class="wrap hero-in">
+      <div class="hero-grid">
+        <div class="stack gap-m">
+          <p class="eyebrow">In memory of Nina Mastro · Est. 2019</p>
+          <h1 class="hero-h">Cancer takes enough.<br><em>It shouldn't take the rent, too.</em></h1>
+          <p class="hero-sub">We're a group of lifelong Chicago friends who lost Nina to pancreatic cancer. Every year we throw a party, fill a room, and hand every dollar to one family carrying the financial weight of this disease.</p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="#give">Give to this year's family</a>
+            <a class="btn btn-ghost" href="#nominate">Nominate a family</a>
+          </div>
+        </div>
+        <div class="ticket-note">
+          <p class="eyebrow plum">Nominations open</p>
+          <h3>Know a family who needs help?</h3>
+          <p class="small muted">Anyone can nominate. Tell us who they are and what they're facing — our board reviews every nomination and selects one recipient each year.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rail" aria-label="Our impact">
+    <div class="wrap">
+      <div class="rail-in">
+        <div class="stat"><span class="n" data-count="95000" data-prefix="$" data-suffix="+">$95,000+</span><span class="l">Donated since 2019</span></div>
+        <div class="stat"><span class="n" data-count="21">21</span><span class="l">Families supported</span></div>
+        <div class="stat"><span class="n" data-count="1">1</span><span class="l">Recipient chosen each year</span></div>
+        <div class="stat"><span class="n">501(c)(3)</span><span class="l">Tax-deductible giving</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec story" id="story">
+    <div class="wrap story-grid">
+      <div class="stack gap-s">
+        <div class="portrait">
+          <span class="slot-tag">Photo slot</span>
+          <span class="small muted">Nina — the photo the whole thing is built around</span>
+        </div>
+      </div>
+      <div class="stack gap-l">
+        <div class="head">
+          <p class="eyebrow">Why we're here</p>
+          <h2>It started with one friend, and a promise.</h2>
+        </div>
+        <div class="story-body">
+          <p>In <strong>May 2015</strong>, Nina Mastro was diagnosed with pancreatic cancer. Her friends did what friends in this city do — they showed up, they cooked, they drove, they sat in waiting rooms. And they watched how fast the bills stack up behind a diagnosis.</p>
+          <p>In <strong>June 2019</strong>, a group of her lifelong friends threw the first event in her honor. It raised over <strong>$8,000</strong> in a single night, and it went straight to a family who needed it. That night became an organization.</p>
+          <p class="pullquote">Every dollar we raise goes directly to a person or family struggling under the financial burden of fighting cancer. No middle step.</p>
+          <p>Seven years on, that's still the whole model: friends, a neighborhood, a party with a band and raffle baskets — and one family who wakes up to a little less weight.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="how">
+    <div class="wrap stack gap-xl">
+      <div class="head">
+        <p class="eyebrow">How we give</p>
+        <h2>Three steps, one family, every year.</h2>
+        <p class="lede">We keep it deliberately simple so that the money moves quickly and lands where it's needed.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <span class="num">STEP 01</span>
+          <h3>Someone nominates</h3>
+          <p>A neighbor, a coworker, a nurse, a cousin. Anyone can submit a nomination with the details of what the family is facing and what the financial need looks like.</p>
+        </div>
+        <div class="step reveal">
+          <span class="num">STEP 02</span>
+          <h3>The board reviews</h3>
+          <p>Our Board of Directors reads every nomination and selects one recipient for the year. Not every nomination can be approved — but every one is read.</p>
+        </div>
+        <div class="step reveal">
+          <span class="num">STEP 03</span>
+          <h3>We hand it over</h3>
+          <p>Everything raised across the year's events goes directly to that family. We tell you who they are, what they're facing, and what your night out paid for.</p>
+        </div>
+      </div>
+      <div class="ticket-note" id="nominate" style="max-width:620px">
+        <p class="eyebrow plum">Nominate</p>
+        <h3>Submitting a nomination</h3>
+        <p class="small muted">Include everything that gives us the full picture of the family's financial need. Nominations are accepted year-round and reviewed ahead of each year's selection.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="recipients" style="padding-top:0">
+    <div class="wrap stack gap-l">
+      <div class="head">
+        <p class="eyebrow">Recipients</p>
+        <h2>Every year has a name behind it.</h2>
+        <p class="lede">Twenty-one families since 2019. This is where their stories live — the reason the number at the top of this page matters.</p>
+      </div>
+      <div class="years">
+        <div class="year"><span class="y">2025</span><span class="small muted">Recipient story</span><span class="r">Content slot</span></div>
+        <div class="year"><span class="y">2024</span><span class="small muted">Recipient story</span><span class="r">Content slot</span></div>
+        <div class="year"><span class="y">2023</span><span class="small muted">Recipient story</span><span class="r">Content slot</span></div>
+        <div class="year"><span class="y">2022</span><span class="small muted">Recipient story</span><span class="r">Content slot</span></div>
+        <div class="year"><span class="y">2021</span><span class="small muted">Recipient story</span><span class="r">Content slot</span></div>
+        <div class="year"><span class="y">2019</span><span class="small muted">The first night · $8,000+ raised</span><span class="r">Where it began</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec events" id="events">
+    <div class="wrap stack gap-l">
+      <div class="head">
+        <p class="eyebrow">Events</p>
+        <h2>Come out. Bring people. That's the whole ask.</h2>
+        <p class="lede">Our fundraising happens in bars, on blocks, and on parade routes — in person, in Chicago, all year long.</p>
+      </div>
+      <div class="evt-list">
+        <div class="evt">
+          <span class="evt-when">Date slot</span>
+          <div><div class="evt-name">Annual Block Party</div><div class="evt-where">Shinnick's Pub · live bands, raffle baskets, the whole neighborhood</div></div>
+          <a class="btn btn-ghost btn-sm" href="#give">Details</a>
+        </div>
+        <div class="evt">
+          <span class="evt-when">Date slot</span>
+          <div><div class="evt-name">PurpleStride Walk</div><div class="evt-where">Team NMO walks each year for pancreatic cancer research, in Nina's name</div></div>
+          <a class="btn btn-ghost btn-sm" href="#give">Join the team</a>
+        </div>
+        <div class="evt">
+          <span class="evt-when">Date slot</span>
+          <div><div class="evt-name">Bunco Night</div><div class="evt-where">Dice, prizes, and a room full of people who knew her</div></div>
+          <a class="btn btn-ghost btn-sm" href="#give">Details</a>
+        </div>
+        <div class="evt">
+          <span class="evt-when">Date slot</span>
+          <div><div class="evt-name">Neighborhood Parade</div><div class="evt-where">Walk with us — bring the kids, bring the dog</div></div>
+          <a class="btn btn-ghost btn-sm" href="#give">Details</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="give">
+    <div class="wrap stack gap-l">
+      <div class="head">
+        <p class="eyebrow">Ways to give</p>
+        <h2>Give in whatever way is easiest for you.</h2>
+        <p class="lede">We accept donations year-round, and we'll send proof of donation for your taxes on request.</p>
+      </div>
+      <div class="give">
+        <div class="tix reveal">
+          <p class="eyebrow">Fastest</p>
+          <h3>Venmo</h3>
+          <p>Send it from your phone in about fifteen seconds. Add the family's name in the note if you'd like.</p>
+          <span class="how">@handle slot →</span>
+        </div>
+        <div class="tix reveal">
+          <p class="eyebrow">No fees</p>
+          <h3>Bank Quick Pay</h3>
+          <p>Zelle / Quick Pay straight from your bank, so the full amount reaches the family.</p>
+          <span class="how">Email slot →</span>
+        </div>
+        <div class="tix reveal">
+          <p class="eyebrow">By mail</p>
+          <h3>Check</h3>
+          <p>Make it out to the Nina Mastro Organization. We'll mail a receipt back for your records.</p>
+          <span class="how">Address slot →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="wrap stack gap-m" style="align-items:flex-start">
+      <h2>One family at a time, for as long as it takes.</h2>
+      <p>Give once, give monthly, or just show up to the block party and buy a raffle ticket. It all ends up in the same place.</p>
+      <div class="hero-cta">
+        <a class="btn btn-gold" href="#give">Donate</a>
+        <a class="btn btn-ghost" href="#nominate" style="border-color:currentColor">Nominate a family</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec why">
+    <div class="wrap stack gap-l">
+      <div class="head">
+        <p class="eyebrow plum">For the board</p>
+        <h2>What this redesign actually changes</h2>
+        <p class="lede">The current Squarespace site holds the right information — it just doesn't ask anyone to do anything with it.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-cell now">
+          <h4>Today</h4>
+          <ul>
+            <li>Pages still carry template names — "Services 1", "Gallery 2", "2017" — so navigation reads like a file drawer.</li>
+            <li>The strongest number the org has, $95,000 to 21 families, isn't the first thing anyone sees.</li>
+            <li>Donating means finding the Donate page, then figuring out which method to use.</li>
+            <li>Nina's story and the families served are separated from the ask.</li>
+            <li>Photo galleries are organized by year rather than by the family each year served.</li>
+          </ul>
+        </div>
+        <div class="why-cell next">
+          <h4>This concept</h4>
+          <ul>
+            <li>Five plain-language sections named for what people are looking for: story, how we give, recipients, events, ways to give.</li>
+            <li>Impact numbers sit directly under the headline, where they do the persuading.</li>
+            <li>A Donate button in the header on every screen, and three giving methods side by side with no page hop.</li>
+            <li>The story leads into the ask on a single scroll — the emotional case and the action are never more than a thumb apart.</li>
+            <li>Each year becomes a recipient story, so the archive becomes evidence instead of an album.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="small muted">Facts shown here — founding year, amount raised, families served, event names, giving methods — are drawn from the organization's own public pages and should be verified and updated by the board before anything goes live. Everything marked "slot" is a placeholder for real content.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top" style="margin-bottom:14px">
+          <span class="mark" aria-hidden="true">N</span>
+          <span class="brand-txt"><strong>Nina Mastro Organization</strong><span>Chicago · 501(c)(3)</span></span>
+        </a>
+        <p class="small muted" style="max-width:38ch">Raising funds in honor of our late friend, Nina Mastro, and giving them directly to families fighting cancer.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#story">Nina's Story</a></li>
+          <li><a href="#how">How We Give</a></li>
+          <li><a href="#recipients">Recipients</a></li>
+          <li><a href="#events">Events</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get involved</h4>
+        <ul>
+          <li><a href="#give">Donate</a></li>
+          <li><a href="#nominate">Nominate a family</a></li>
+          <li><a href="#events">Volunteer at an event</a></li>
+          <li><a href="#give">Sponsor a raffle basket</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>Nina Mastro Organization · Chicago, IL · EIN 84-2055686</span>
+      <span>Design concept only — not the official website.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var bar = document.querySelector('.concept-bar');
+  function setH(){ document.documentElement.style.setProperty('--banner-h', bar.offsetHeight + 'px'); }
+  setH();
+  window.addEventListener('resize', setH);
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* scroll reveals + count-up */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add('in');
+      if(e.target.dataset.count) countUp(e.target);
+      io.unobserve(e.target);
+    });
+  }, {threshold:.25, rootMargin:'0px 0px -40px'});
+  document.querySelectorAll('.reveal, [data-count]').forEach(function(el){ io.observe(el); });
+
+  function countUp(el){
+    var target = parseInt(el.dataset.count, 10);
+    var pre = el.dataset.prefix || '', suf = el.dataset.suffix || '';
+    if(reduce || target < 5) return;
+    var start = performance.now(), dur = 1100;
+    function frame(now){
+      var t = Math.min((now - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = pre + Math.round(target * eased).toLocaleString('en-US') + suf;
+      if(t < 1) requestAnimationFrame(frame);
+    }
+    el.textContent = pre + '0' + suf;
+    requestAnimationFrame(frame);
+  }
+
+  /* hero: warm string-light bokeh, drifting slowly */
+  var cv = document.getElementById('lights'), ctx = cv.getContext('2d');
+  var hero = cv.parentElement, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var lights = [], W = 0, H = 0;
+
+  function palette(){
+    var s = getComputedStyle(document.documentElement);
+    return [s.getPropertyValue('--glow-a').trim(), s.getPropertyValue('--glow-b').trim()];
+  }
+  function build(){
+    W = hero.clientWidth; H = hero.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var cols = palette();
+    lights = [];
+    for(var i = 0; i < 14; i++){
+      lights.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: 60 + Math.random() * 190,
+        c: cols[i % 2],
+        dx: (Math.random() - .5) * .12,
+        dy: (Math.random() - .5) * .09
+      });
+    }
+    draw();
+  }
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+    lights.forEach(function(l){
+      var g = ctx.createRadialGradient(l.x, l.y, 0, l.x, l.y, l.r);
+      g.addColorStop(0, l.c);
+      g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(l.x, l.y, l.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+  function tick(){
+    lights.forEach(function(l){
+      l.x += l.dx; l.y += l.dy;
+      if(l.x < -l.r) l.x = W + l.r; if(l.x > W + l.r) l.x = -l.r;
+      if(l.y < -l.r) l.y = H + l.r; if(l.y > H + l.r) l.y = -l.r;
+    });
+    draw();
+    requestAnimationFrame(tick);
+  }
+  build();
+  window.addEventListener('resize', build);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(build);
+  if(!reduce) requestAnimationFrame(tick);
+  ['change'].forEach(function(ev){
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener(ev, build);
+  });
+})();
+</script>
