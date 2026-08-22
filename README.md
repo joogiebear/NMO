@@ -43,6 +43,12 @@ Everything a non-developer needs is in `content/`. Each file is commented.
 | `content/board.ts` | Board members. Leave the list empty and the section hides itself |
 | `content/sponsors.ts` | Sponsor thank-yous. Empty list hides the section |
 
+The merch shop is **not** part of this site. Paste your existing store URL into
+`site.store.url` in `content/site.ts` and a Shop link appears in the header, the
+footer, the Ways to Give page and a strip on the home page — all pointing out to
+wherever you already sell. Leave it blank and every one of those hides itself.
+Nothing about how you sell items changes.
+
 Photos go in `public/` (for example `public/photos/2025-family.jpg`) and are
 referenced as `/photos/2025-family.jpg`. Anywhere a photo hasn't been added
 yet, the site draws a labeled placeholder rather than a broken image.
@@ -57,6 +63,7 @@ redeploys automatically on every commit to `main`.
 Search the repo for `TODO_` to find every placeholder. As of this commit:
 
 - [ ] `content/site.ts` — real contact email, mailing address, Venmo handle, Zelle email
+- [ ] `content/site.ts` — `store.url`, the link to the existing merch shop
 - [ ] `content/site.ts` — confirm the impact numbers, and decide whether the board
       can stand behind a "100% of proceeds go to the family" claim (it is the
       single most persuasive line a small charity can put on a page)
@@ -96,12 +103,18 @@ silently swallowed. A hidden honeypot field blocks the usual spam bots.
 4. Add `ninam.org` and `www.ninam.org` as domains and update the DNS records
    Vercel gives you.
 
+**If the shop currently runs on Squarespace:** keep that Squarespace site for the
+store alone and give it its own subdomain (`shop.ninam.org`), then point the root
+domain at Vercel. The main site moves; the store keeps working untouched, and the
+Shop link in the header sends people straight to it.
+
 ---
 
 ## Worth doing next
 
-- **Online card giving.** Venmo, Zelle and checks cover the people who already
-  know you. A card button converts the ones who don't. [Zeffy](https://www.zeffy.com/)
+- **Online card giving.** This is about *donations*, not merch — the shop stays
+  exactly where it is. Venmo, Zelle and checks cover the people who already know
+  you; a card button converts the ones who don't. [Zeffy](https://www.zeffy.com/)
   is genuinely free for nonprofits; [Givebutter](https://givebutter.com/) and
   Stripe are the other common choices. Drop it in as a fourth method in
   `content/site.ts` and a primary button in the hero.

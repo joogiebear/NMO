@@ -30,6 +30,21 @@ export const site = {
     ],
   },
 
+  /**
+   * The merch shop lives on whatever platform you already sell through — this
+   * site links out to it rather than replacing it.
+   *
+   * Paste the store URL below and a Shop link appears in the header, the footer
+   * and on the Ways to Give page. Leave it empty and all of that stays hidden.
+   */
+  store: {
+    url: "", // e.g. "https://ninam-shop.myshopify.com" or your Bonfire / Square page
+    label: "Shop",
+    headline: "T-shirts, hoodies and the rest.",
+    blurb:
+      "Wear it to the Block Party — every order puts money toward this year's family.",
+  },
+
   social: {
     facebook: "https://www.facebook.com/thenmorg/",
     instagram: "", // e.g. "https://www.instagram.com/thenmorg/"

@@ -8,7 +8,7 @@ import {
   SectionHead,
 } from "@/components/ui";
 import { giftAmounts, givingMethods, site, sponsorTiers } from "@/content/site";
-import { clean, usd } from "@/lib/format";
+import { clean, hasStore, usd } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "Ways to Give",
@@ -35,12 +35,13 @@ const faqs = [
   },
   {
     q: "I can't give money right now.",
-    a: "That's completely fine, and there's still a lot you can do. Come to an event, put together a raffle basket, nominate a family, or just share us with people who might give.",
+    a: "That's completely fine, and there's still a lot you can do. Come to an event, put together a raffle basket, nominate a family, buy something from the shop, or just share us with people who might give.",
   },
 ];
 
 export default function GivePage() {
   const email = clean(site.contact.email);
+  const storeUrl = hasStore(site.store.url) ? site.store.url : null;
 
   return (
     <>
@@ -126,6 +127,27 @@ export default function GivePage() {
           </Card>
         </Container>
       </Section>
+
+      {storeUrl ? (
+        <Section tone="paper" className="pt-0">
+          <Container>
+            <Card className="flex flex-col sm:flex-row sm:items-center gap-6 justify-between">
+              <div className="flex flex-col gap-2 max-w-[54ch]">
+                <Eyebrow>Buy something instead</Eyebrow>
+                <h3 className="text-2xl">Merch works as well as a donation.</h3>
+                <p className="text-ink-soft leading-relaxed">
+                  {site.store.headline} {site.store.blurb}
+                </p>
+              </div>
+              <div className="shrink-0">
+                <Button href={storeUrl} variant="primary" size="lg">
+                  Visit the {site.store.label.toLowerCase()}
+                </Button>
+              </div>
+            </Card>
+          </Container>
+        </Section>
+      ) : null}
 
       <Section tone="band">
         <Container className="flex flex-col gap-10">

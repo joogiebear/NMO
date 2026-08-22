@@ -52,3 +52,8 @@ export function usd(amount: number): string {
 export function clean(value: string): string {
   return value.replace(/^TODO_/, "");
 }
+
+/** True when a real store URL has been filled in (not blank, not a placeholder). */
+export function hasStore(url: string): boolean {
+  return url.trim() !== "" && !url.startsWith("TODO_");
+}

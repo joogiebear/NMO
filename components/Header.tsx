@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button, Container } from "./ui";
+import { site } from "@/content/site";
+import { hasStore } from "@/lib/format";
 
 const links = [
   { href: "/story", label: "Our Story" },
@@ -15,6 +17,7 @@ const links = [
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const storeUrl = hasStore(site.store.url) ? site.store.url : null;
 
   useEffect(() => {
     setOpen(false);
@@ -64,6 +67,16 @@ export function Header() {
               </Link>
             );
           })}
+          {storeUrl ? (
+            <a
+              href={storeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="no-underline font-medium border-b-2 border-transparent pb-0.5 text-ink-soft hover:text-ink hover:border-gold-bright"
+            >
+              {site.store.label}
+            </a>
+          ) : null}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -111,6 +124,16 @@ export function Header() {
                 {l.label}
               </Link>
             ))}
+            {storeUrl ? (
+              <a
+                href={storeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="no-underline text-ink font-medium py-3 border-b border-line"
+              >
+                {site.store.label}
+              </a>
+            ) : null}
             <Link
               href="/contact"
               className="no-underline text-ink font-medium py-3"

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Container } from "./ui";
 import { site } from "@/content/site";
+import { hasStore } from "@/lib/format";
 
 const columns = [
   {
@@ -25,6 +26,7 @@ const columns = [
 export function Footer() {
   const year = new Date().getFullYear();
   const email = site.contact.email.replace("TODO_", "");
+  const storeUrl = hasStore(site.store.url) ? site.store.url : null;
 
   return (
     <footer className="bg-plum-deep text-paper">
@@ -64,6 +66,18 @@ export function Footer() {
                     </Link>
                   </li>
                 ))}
+                {col.title === "Help" && storeUrl ? (
+                  <li>
+                    <a
+                      href={storeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="no-underline text-paper/85 hover:text-gold-bright text-[15px]"
+                    >
+                      {site.store.label}
+                    </a>
+                  </li>
+                ) : null}
               </ul>
             </div>
           ))}

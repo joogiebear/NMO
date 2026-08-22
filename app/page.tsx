@@ -12,7 +12,7 @@ import { currentCampaign, impact, site } from "@/content/site";
 import { events } from "@/content/events";
 import { recipients } from "@/content/recipients";
 import { sponsors } from "@/content/sponsors";
-import { clean, eventDateParts, splitEvents, usd } from "@/lib/format";
+import { clean, eventDateParts, hasStore, splitEvents, usd } from "@/lib/format";
 
 const waysToHelp = [
   {
@@ -39,6 +39,7 @@ const waysToHelp = [
 
 export default function HomePage() {
   const { upcoming } = splitEvents(events);
+  const storeUrl = hasStore(site.store.url) ? site.store.url : null;
   const nextEvents = upcoming.slice(0, 3);
   const namedRecipients = recipients.filter((r) => !r.name.startsWith("TODO_"));
 
@@ -208,6 +209,22 @@ export default function HomePage() {
           </div>
         </Container>
       </Section>
+
+      {/* ------------------------------------------------------------ the shop */}
+      {storeUrl ? (
+        <section className="bg-gold-tint border-y border-line">
+          <Container className="py-10 flex flex-col sm:flex-row sm:items-center gap-6 justify-between">
+            <div className="flex flex-col gap-1.5 max-w-[52ch]">
+              <Eyebrow>Wearing it counts too</Eyebrow>
+              <h2 className="text-2xl sm:text-3xl">{site.store.headline}</h2>
+              <p className="text-ink-soft leading-relaxed">{site.store.blurb}</p>
+            </div>
+            <Button href={storeUrl} variant="primary" size="lg" className="shrink-0">
+              Visit the {site.store.label.toLowerCase()}
+            </Button>
+          </Container>
+        </section>
+      ) : null}
 
       {/* --------------------------------------------------------- story teaser */}
       <Section tone="paper">
