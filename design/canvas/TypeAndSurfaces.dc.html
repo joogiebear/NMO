@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900&display=swap">
+  <style>
+    body { margin: 0; font-family: Archivo, "Helvetica Neue", Arial, sans-serif; }
+    a { color: #A9660B; text-decoration: none; }
+    a:hover { color: #592C6C; }
+    .lbl { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    .rule { height: 1px; background: #E7DCD3; border: 0; margin: 0; }
+    .grain::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n2)' opacity='0.5'/%3E%3C/svg%3E");
+    }
+  </style>
+</helmet>
+
+<div style="width: 1200px; height: 940px; background: #FCF9F6; padding: 52px 56px; box-sizing: border-box; display: flex; flex-direction: column; gap: 26px;">
+
+  <div style="display: flex; flex-direction: column; gap: 9px; max-width: 66ch;">
+    <span class="lbl" style="color: #A9660B;">Type and surfaces</span>
+    <h2 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 42px; line-height: 1.05; letter-spacing: -0.025em; color: #2B2032;">One weight, one surface, all the way down.</h2>
+    <p style="margin: 0; font-size: 16.5px; line-height: 1.6; color: #4F4257;">Every heading on the site is Fraunces 600 and almost every block is a white card on a warm ground. It reads as competent and slightly generic. Two cheap fixes below — neither needs new photos.</p>
+  </div>
+
+  <hr class="rule">
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <span class="lbl" style="color: #592C6C;">Option A — recommended · use the range Fraunces already has</span>
+      <div style="background: #FFFFFF; border: 1px solid #E7DCD3; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+        <div>
+          <span class="lbl" style="color: #7A6C82;">Display · 900 · -0.035em</span>
+          <div style="font-family: Fraunces, Georgia, serif; font-weight: 900; font-size: 46px; line-height: 0.98; letter-spacing: -0.035em; color: #2B2032;">One family<br>at a time.</div>
+        </div>
+        <hr class="rule">
+        <div>
+          <span class="lbl" style="color: #7A6C82;">Section · 600</span>
+          <div style="font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 27px; line-height: 1.1; letter-spacing: -0.02em; color: #2B2032;">Where the money goes</div>
+        </div>
+        <div>
+          <span class="lbl" style="color: #7A6C82;">Quote · 400 italic</span>
+          <div style="font-family: Fraunces, Georgia, serif; font-weight: 400; font-style: italic; font-size: 21px; line-height: 1.35; color: #4F4257;">Every dollar goes directly to a family.</div>
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 14.5px; line-height: 1.55; color: #4F4257;"><strong style="color:#2B2032;">Trade-off:</strong> none to speak of — the font is already loaded, so this costs one line of CSS. Least disruptive, keeps the identity you have.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <span class="lbl" style="color: #592C6C;">Option B — swap the display face</span>
+      <div style="background: #FFFFFF; border: 1px solid #E7DCD3; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+        <div>
+          <span class="lbl" style="color: #7A6C82;">Bricolage Grotesque · 800</span>
+          <div style="font-family: 'Bricolage Grotesque', Archivo, sans-serif; font-weight: 800; font-size: 46px; line-height: 0.98; letter-spacing: -0.035em; color: #2B2032;">One family<br>at a time.</div>
+        </div>
+        <hr class="rule">
+        <div>
+          <span class="lbl" style="color: #7A6C82;">Section · 600</span>
+          <div style="font-family: 'Bricolage Grotesque', Archivo, sans-serif; font-weight: 600; font-size: 27px; line-height: 1.1; letter-spacing: -0.02em; color: #2B2032;">Where the money goes</div>
+        </div>
+        <div>
+          <span class="lbl" style="color: #7A6C82;">Quote · Fraunces italic retained</span>
+          <div style="font-family: Fraunces, Georgia, serif; font-weight: 400; font-style: italic; font-size: 21px; line-height: 1.35; color: #4F4257;">Every dollar goes directly to a family.</div>
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 14.5px; line-height: 1.55; color: #4F4257;"><strong style="color:#2B2032;">Trade-off:</strong> more distinctive and closer to a flyer, but colder — the warmth in the current design comes largely from that serif. Worth it only if you want the site to feel younger.</p>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <div style="display: flex; flex-direction: column; gap: 14px;">
+    <span class="lbl" style="color: #592C6C;">Stop making everything a white card</span>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px;">
+      <div class="grain" style="position: relative; height: 132px; border-radius: 14px; background: #FCF9F6; border: 1px solid #E7DCD3; display: flex; flex-direction: column; justify-content: flex-end; padding: 16px; overflow: hidden;">
+        <span style="position: relative; font-family: Fraunces, Georgia, serif; font-size: 17px; font-weight: 600; color: #2B2032;">Paper + grain</span>
+        <span style="position: relative; font-size: 13px; color: #7A6C82; line-height: 1.4;">Default ground. Grain is the cheapest atmosphere there is.</span>
+      </div>
+      <div style="height: 132px; border-radius: 14px; background: #F6EFE7; display: flex; flex-direction: column; justify-content: flex-end; padding: 16px;">
+        <span style="font-family: Fraunces, Georgia, serif; font-size: 17px; font-weight: 600; color: #2B2032;">Warm band</span>
+        <span style="font-size: 13px; color: #7A6C82; line-height: 1.4;">Alternating sections, so the page has a pulse.</span>
+      </div>
+      <div style="height: 132px; border-radius: 14px; background: #592C6C; display: flex; flex-direction: column; justify-content: flex-end; padding: 16px;">
+        <span style="font-family: Fraunces, Georgia, serif; font-size: 17px; font-weight: 600; color: #FCF9F6;">Plum</span>
+        <span style="font-size: 13px; color: rgba(252,249,246,.75); line-height: 1.4;">Reserved for asks. Never twice in a row.</span>
+      </div>
+      <div style="height: 132px; border-radius: 14px; background: #FBEFDA; background-image: radial-gradient(rgba(43,32,50,.14) 1.2px, transparent 1.4px); background-size: 8px 8px; display: flex; flex-direction: column; justify-content: flex-end; padding: 16px;">
+        <span style="font-family: Fraunces, Georgia, serif; font-size: 17px; font-weight: 600; color: #2B2032;">Halftone gold</span>
+        <span style="font-size: 13px; color: #7A6C82; line-height: 1.4;">Events and merch only. Cheap-print energy, on purpose.</span>
+      </div>
+    </div>
+    <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #4F4257; max-width: 100ch;">Four grounds in a fixed rotation replace the current one-note stack of white cards. The rule that keeps it disciplined: a section may change its ground <em>or</em> its layout, never both at once.</p>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700&display=swap">
+  <style>
+    body { margin: 0; font-family: Archivo, "Helvetica Neue", Arial, sans-serif; }
+    a { color: #A9660B; text-decoration: none; }
+    a:hover { color: #592C6C; }
+    .lbl { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    .halftone { background-image: radial-gradient(rgba(43,32,50,.16) 1.2px, transparent 1.4px); background-size: 8px 8px; }
+    .poster { position: relative; border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; }
+  </style>
+</helmet>
+
+<div style="width: 1440px; height: 820px; background: #F6EFE7; padding: 52px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 30px;">
+
+  <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;">
+    <div style="display: flex; flex-direction: column; gap: 9px; max-width: 60ch;">
+      <span class="lbl" style="color: #A9660B;">Events, reworked</span>
+      <h2 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 44px; line-height: 1.05; letter-spacing: -0.025em; color: #2B2032;">A block party should not look like a spreadsheet.</h2>
+      <p style="margin: 0; font-size: 16.5px; line-height: 1.6; color: #4F4257;">Today these are three grey rows with a Details button. They&#39;re the single biggest source of money the organization has, and they read like a train timetable. Borrowing from the flyers you already staple to telephone poles gets the energy back.</p>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px;">
+
+    <div class="poster" style="background: #592C6C; height: 470px;">
+      <div class="halftone" style="position: absolute; inset: 0; opacity: .5;"></div>
+      <div style="position: relative; padding: 26px 26px 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;">
+        <div style="background: #E29A2C; color: #3B1B4A; border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; align-items: center; min-width: 74px;">
+          <span class="lbl" style="letter-spacing: .1em;">Sep</span>
+          <span style="font-family: Fraunces, Georgia, serif; font-size: 34px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums;">12</span>
+        </div>
+        <span class="lbl" style="color: rgba(252,249,246,.72); text-align: right; padding-top: 6px;">Our biggest<br>day of the year</span>
+      </div>
+      <div style="position: relative; margin-top: auto; padding: 26px; display: flex; flex-direction: column; gap: 12px;">
+        <h3 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 700; font-size: 40px; line-height: 0.98; letter-spacing: -0.03em; color: #FCF9F6;">The Annual<br>Block Party</h3>
+        <span style="font-size: 15px; color: rgba(252,249,246,.85); line-height: 1.5;">Shinnick&#39;s Pub · live bands, raffle baskets stacked to the ceiling, and the whole neighborhood on one block.</span>
+        <a href="#" style="align-self: flex-start; margin-top: 4px; background: #FCF9F6; color: #3B1B4A; font-size: 15px; font-weight: 600; padding: 12px 24px; border-radius: 999px;">Get tickets</a>
+      </div>
+    </div>
+
+    <div class="poster" style="background: #FFFFFF; border: 1px solid #E7DCD3; height: 470px;">
+      <div style="height: 168px; background: linear-gradient(155deg, #E9DCEF, #F1E7F5); display: flex; align-items: flex-end; padding: 18px;">
+        <span class="lbl" style="color: #7A6C82;">Photo · Team NMO on the route</span>
+      </div>
+      <div style="padding: 24px; display: flex; flex-direction: column; gap: 11px; flex-grow: 1;">
+        <span class="lbl" style="color: #A9660B;">Date to be announced</span>
+        <h3 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 28px; line-height: 1.05; letter-spacing: -0.02em; color: #2B2032;">PurpleStride Chicago</h3>
+        <span style="font-size: 15px; color: #4F4257; line-height: 1.55;">Team NMO walks every year for pancreatic cancer research, in Nina&#39;s name. Anyone can join the team.</span>
+        <a href="#" style="align-self: flex-start; margin-top: auto; border: 2px solid #D2C2BC; color: #2B2032; font-size: 15px; font-weight: 600; padding: 10px 22px; border-radius: 999px;">Join the team</a>
+      </div>
+    </div>
+
+    <div class="poster" style="background: #FFFFFF; border: 1px solid #E7DCD3; height: 470px;">
+      <div class="halftone" style="height: 168px; background-color: #FBEFDA; display: flex; align-items: flex-end; padding: 18px;">
+        <span class="lbl" style="color: #A9660B;">Photo · the room, mid-game</span>
+      </div>
+      <div style="padding: 24px; display: flex; flex-direction: column; gap: 11px; flex-grow: 1;">
+        <span class="lbl" style="color: #A9660B;">Date to be announced</span>
+        <h3 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 28px; line-height: 1.05; letter-spacing: -0.02em; color: #2B2032;">Bunco Night</h3>
+        <span style="font-size: 15px; color: #4F4257; line-height: 1.55;">Dice, prizes, and a room full of people who knew her. An easy first event if you&#39;ve never been to one of ours.</span>
+        <a href="#" style="align-self: flex-start; margin-top: auto; border: 2px solid #D2C2BC; color: #2B2032; font-size: 15px; font-weight: 600; padding: 10px 22px; border-radius: 999px;">Details</a>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 40px; align-items: flex-start; padding-top: 4px;">
+    <span class="lbl" style="color: #7A6C82; flex: none; padding-top: 3px;">Why it works</span>
+    <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #4F4257; max-width: 96ch;">The next event gets the poster treatment; the rest stay quiet cards. That hierarchy tells a first-time visitor where to go without a word of explanation — and it gives you one obvious slot for the wide block-party photo when it lands.</p>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

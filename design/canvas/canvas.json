@@ -1,0 +1,34 @@
+{
+  "artboards": [
+    { "file": "HeroNow.dc.html", "x": 0, "y": 0, "w": 1440, "h": 900, "title": "Hero — today" },
+    { "file": "Main.dc.html", "x": 1600, "y": 0, "w": 1440, "h": 900, "title": "Hero — proposed" },
+    { "file": "MobileHome.dc.html", "x": 3200, "y": 0, "w": 390, "h": 844, "title": "Phone — proposed" },
+    { "file": "PhotoSystem.dc.html", "x": 0, "y": 1080, "w": 1440, "h": 1000, "title": "Photo system" },
+    { "file": "TypeAndSurfaces.dc.html", "x": 1600, "y": 1080, "w": 1200, "h": 940, "title": "Type and surfaces" },
+    { "file": "EventsRework.dc.html", "x": 0, "y": 2220, "w": 1440, "h": 820, "title": "Events, reworked" }
+  ],
+  "annotations": [
+    {
+      "id": "start-here",
+      "x": -470,
+      "y": 0,
+      "w": 400,
+      "text": "START HERE\n\nToday's hero on the left, the proposal on the right.\n\nThe three changes: the photo panel breaks the container and bleeds off the edge, the headline gets bigger while the lede gets shorter, and there is now ONE button instead of two competing ones.\n\nThe numbers moved onto the seam between the two planes, and $95,000 is finally the biggest thing on the page."
+    },
+    {
+      "id": "photos-first",
+      "x": -470,
+      "y": 1080,
+      "w": 400,
+      "text": "DO THIS ONE FIRST\n\nSince the photos are days away, this is the artboard that pays off soonest — it says what each picture is for before anyone starts shooting.\n\nThe shot list at the bottom is the bit to forward to whoever is holding the camera.\n\nThe one rule worth keeping: atmosphere shots can be tinted, faces never are."
+    },
+    {
+      "id": "events-note",
+      "x": -470,
+      "y": 2220,
+      "w": 400,
+      "text": "THE BIGGEST GAP\n\nEvents raise most of the money and currently look like a train timetable.\n\nOnly the next event gets the poster treatment — the rest stay quiet. That contrast is what tells a first-time visitor where to go."
+    }
+  ],
+  "launch": { "view": "canvas" }
+}

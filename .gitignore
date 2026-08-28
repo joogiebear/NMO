@@ -9,3 +9,7 @@ build/
 *.tsbuildinfo
 next-env.d.ts
 .vercel
+
+# Published design canvas — 2.5 MB of generated editor payload.
+# Regenerate from design/canvas/ with the /design skill; see design/README.md.
+nmo-design-review.html

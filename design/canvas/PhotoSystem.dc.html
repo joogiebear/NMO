@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700&display=swap">
+  <style>
+    body { margin: 0; font-family: Archivo, "Helvetica Neue", Arial, sans-serif; }
+    a { color: #A9660B; text-decoration: none; }
+    a:hover { color: #592C6C; }
+    .lbl { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    .frame { position: relative; border-radius: 14px; overflow: hidden; background: linear-gradient(160deg, #E9DCEF 0%, #F6EFE7 55%, #FBEFDA 100%); }
+    .spec { font-size: 13.5px; color: #4F4257; line-height: 1.55; }
+    .rule { height: 1px; background: #E7DCD3; border: 0; margin: 0; }
+  </style>
+</helmet>
+
+<div style="width: 1440px; height: 1000px; background: #FCF9F6; padding: 56px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 30px;">
+
+  <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;">
+    <div style="display: flex; flex-direction: column; gap: 10px; max-width: 62ch;">
+      <span class="lbl" style="color: #A9660B;">The piece that unlocks everything else</span>
+      <h2 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 46px; line-height: 1.05; letter-spacing: -0.025em; color: #2B2032;">Four photo roles, four treatments.</h2>
+      <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #4F4257;">The design has photo-shaped holes but no rules for them. These four roles say what each picture is for, how it&#39;s cropped, and what may be done to it — so the shots you gather this week drop straight in.</p>
+    </div>
+    <div style="flex: none; background: #F1E7F5; border-radius: 14px; padding: 18px 22px; max-width: 300px;">
+      <span class="lbl" style="color: #592C6C;">One hard rule</span>
+      <p style="margin: 6px 0 0; font-size: 14.5px; line-height: 1.5; color: #3B1B4A;">Never tint or duotone a person&#39;s face. Atmosphere can be styled; people are shown as they are.</p>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 26px;">
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="frame" style="aspect-ratio: 3/4;">
+        <div style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 16px;">
+          <span class="lbl" style="color: #6E5E77;">3 : 4 · natural color</span>
+        </div>
+      </div>
+      <span style="font-family: Fraunces, Georgia, serif; font-size: 21px; font-weight: 600; color: #2B2032;">01 · Nina</span>
+      <p class="spec" style="margin: 0;"><strong style="color:#2B2032;">Where:</strong> the home hero, the top of Our Story.<br><strong style="color:#2B2032;">Treatment:</strong> none. Warm, natural, eye level.<br><strong style="color:#2B2032;">Needs:</strong> headroom on one side so the headline has somewhere to sit.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="frame" style="aspect-ratio: 3/4;">
+        <div style="position: absolute; inset: 0; background: linear-gradient(150deg, #592C6C 0%, #E29A2C 100%); mix-blend-mode: multiply; opacity: {{tintOpacity}};"></div>
+        <div style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 16px;">
+          <span class="lbl" style="color: rgba(252,249,246,.9);">Duotone</span>
+          <span class="lbl" style="color: rgba(252,249,246,.9);">16 : 9 · text sits on top</span>
+        </div>
+      </div>
+      <span style="font-family: Fraunces, Georgia, serif; font-size: 21px; font-weight: 600; color: #2B2032;">02 · Atmosphere</span>
+      <p class="spec" style="margin: 0;"><strong style="color:#2B2032;">Where:</strong> full-width bands behind type — the block, the crowd, the room.<br><strong style="color:#2B2032;">Treatment:</strong> plum-to-marigold duotone so white text stays legible.<br><strong style="color:#2B2032;">Needs:</strong> wide, no single face dominant.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="frame" style="aspect-ratio: 3/4;">
+        <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 46%; background: #FFFFFF;"></div>
+        <div style="position: absolute; left: 16px; right: 16px; bottom: 16px; display: flex; flex-direction: column; gap: 3px;">
+          <span style="font-family: Fraunces, Georgia, serif; font-size: 17px; font-weight: 600; color: #2B2032;">The Ruiz Family</span>
+          <span class="lbl" style="color: #A9660B;">2024 · $14,200</span>
+          <span style="font-size: 12.5px; color: #7A6C82; line-height: 1.4;">Caption sits under, never over.</span>
+        </div>
+      </div>
+      <span style="font-family: Fraunces, Georgia, serif; font-size: 21px; font-weight: 600; color: #2B2032;">03 · The family</span>
+      <p class="spec" style="margin: 0;"><strong style="color:#2B2032;">Where:</strong> Families We&#39;ve Helped, one per year.<br><strong style="color:#2B2032;">Treatment:</strong> none, ever. Caption in a white block below.<br><strong style="color:#2B2032;">Needs:</strong> their permission, and the name they want used.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="frame" style="aspect-ratio: 3/4; background: linear-gradient(160deg, #F6EFE7 0%, #EFE4DA 100%);">
+        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#B7A5BE" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 17.5l5.2-5.6 3.4 3.3 4.1-5.2L21 17.5z"></path>
+            <circle cx="8.4" cy="7.6" r="1.9"></circle>
+            <rect x="2.5" y="4" width="19" height="16" rx="2"></rect>
+          </svg>
+        </div>
+        <div style="position: absolute; left: 16px; bottom: 16px;">
+          <span class="lbl" style="color: #7A6C82;">4 : 5 · natural</span>
+        </div>
+      </div>
+      <span style="font-family: Fraunces, Georgia, serif; font-size: 21px; font-weight: 600; color: #2B2032;">04 · Detail</span>
+      <p class="spec" style="margin: 0;"><strong style="color:#2B2032;">Where:</strong> beside story copy, small.<br><strong style="color:#2B2032;">Treatment:</strong> none. Used at small sizes, so keep them simple.<br><strong style="color:#2B2032;">Needs:</strong> hands, raffle baskets, the check, a band mid-set.</p>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 44px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <span class="lbl" style="color: #A9660B;">Shot list — what to gather this week</span>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px;">
+        <span class="spec">One strong portrait of Nina</span>
+        <span class="spec">A wide shot of the block, full</span>
+        <span class="spec">A band mid-set</span>
+        <span class="spec">The raffle table, stacked</span>
+        <span class="spec">A check being handed over</span>
+        <span class="spec">The board, together, candid</span>
+        <span class="spec">Each past family (with permission)</span>
+        <span class="spec">Anything with a crowd in it</span>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <span class="lbl" style="color: #A9660B;">Until they arrive</span>
+      <p class="spec" style="margin: 0; max-width: 58ch;">The placeholders stay honest — a labeled slot beats a stock photo of strangers, and it tells anyone editing the site exactly what belongs there. Landscape shots matter more than portrait ones: one good wide photo of the block party unlocks the hero band, the events page and the social card all at once.</p>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"duotone":{"editor":"range","default":55,"min":0,"max":100,"step":5,"unit":"%","section":"Photo treatment"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var d = this.props.duotone;
+    if (typeof d !== "number") { d = 55; }
+    return { tintOpacity: String(d / 100) };
+  }
+}
+</script>
+</body>
+</html>

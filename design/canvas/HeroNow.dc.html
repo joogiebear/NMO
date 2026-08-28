@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700&display=swap">
+  <style>
+    body { margin: 0; font-family: Archivo, "Helvetica Neue", Arial, sans-serif; }
+    a { color: #A9660B; text-decoration: none; }
+    a:hover { color: #592C6C; }
+    .dashed {
+      border: 1px dashed #D2C2BC; border-radius: 16px;
+      background-image: linear-gradient(135deg, #FBEFDA, transparent 55%), linear-gradient(315deg, #F1E7F5, transparent 58%);
+      background-color: #FFFFFF;
+      display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; padding: 20px;
+    }
+    .slot-label { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #7A6C82; }
+  </style>
+</helmet>
+
+<div style="position: relative; width: 1440px; height: 900px; background: #FCF9F6; overflow: hidden;">
+  <div style="position: absolute; inset: 0; background-image: radial-gradient(70ch 40ch at 12% -10%, #FBEFDA, transparent 60%), radial-gradient(60ch 45ch at 92% 0%, #F1E7F5, transparent 62%);"></div>
+
+  <div style="position: absolute; top: 24px; left: 50%; transform: translateX(-50%); background: #2B2032; color: #FCF9F6; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: 7px 16px; border-radius: 999px;">Live today</div>
+
+  <div style="position: absolute; top: 130px; left: 60px; right: 60px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: center;">
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+      <span class="slot-label" style="color: #A9660B;">In memory of Nina Mastro · Chicago · Since 2019</span>
+      <h1 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 66px; line-height: 1.03; letter-spacing: -0.03em; color: #2B2032;">
+        Cancer takes enough.<br>
+        <span style="color: #592C6C;">It shouldn&#39;t take the rent, too.</span>
+      </h1>
+      <p style="margin: 0; font-size: 20px; line-height: 1.6; color: #4F4257; max-width: 46ch;">
+        We&#39;re a group of lifelong Chicago friends who lost Nina to pancreatic cancer. Every year we throw a party, fill a room, and hand everything we raise to one family carrying the financial weight of this disease.
+      </p>
+      <div style="display: flex; gap: 12px; padding-top: 4px;">
+        <a href="#" style="background: #592C6C; color: #FCF9F6; font-size: 16px; font-weight: 600; padding: 14px 28px; border-radius: 999px;">Donate</a>
+        <a href="#" style="border: 2px solid #D2C2BC; color: #2B2032; font-size: 16px; font-weight: 600; padding: 12px 26px; border-radius: 999px;">Other ways to help</a>
+      </div>
+      <span style="font-size: 14px; color: #7A6C82;">Registered 501(c)(3) · EIN 84-2055686 · Every gift is tax-deductible</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div class="dashed" style="aspect-ratio: 2/3;">
+        <span class="slot-label">Photo slot</span>
+        <span style="font-size: 13px; color: #7A6C82; line-height: 1.4;">Nina</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div class="dashed" style="aspect-ratio: 4/3;">
+          <span class="slot-label">Photo slot</span>
+          <span style="font-size: 13px; color: #7A6C82;">The Block Party</span>
+        </div>
+        <div class="dashed" style="aspect-ratio: 4/3;">
+          <span class="slot-label">Photo slot</span>
+          <span style="font-size: 13px; color: #7A6C82;">Handing it over</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; background: #FFFFFF; border-top: 1px solid #E7DCD3;">
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr);">
+      <div style="display: flex; flex-direction: column; gap: 3px; padding: 30px 40px; border-right: 1px solid #E7DCD3;">
+        <span style="font-family: Fraunces, Georgia, serif; font-size: 42px; font-weight: 600; line-height: 1; color: #592C6C; font-variant-numeric: tabular-nums;">$95,000+</span>
+        <span class="slot-label">Donated since 2019</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 3px; padding: 30px 40px; border-right: 1px solid #E7DCD3;">
+        <span style="font-family: Fraunces, Georgia, serif; font-size: 42px; font-weight: 600; line-height: 1; color: #592C6C; font-variant-numeric: tabular-nums;">21</span>
+        <span class="slot-label">Families supported</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 3px; padding: 30px 40px; border-right: 1px solid #E7DCD3;">
+        <span style="font-family: Fraunces, Georgia, serif; font-size: 42px; font-weight: 600; line-height: 1; color: #592C6C; font-variant-numeric: tabular-nums;">1</span>
+        <span class="slot-label">Recipient family each year</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 3px; padding: 30px 40px;">
+        <span style="font-family: Fraunces, Georgia, serif; font-size: 42px; font-weight: 600; line-height: 1; color: #592C6C;">501(c)(3)</span>
+        <span class="slot-label">Every gift is tax-deductible</span>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap">
+  <style>
+    body { margin: 0; font-family: Archivo, "Helvetica Neue", Arial, sans-serif; }
+    a { color: #A9660B; text-decoration: none; }
+    a:hover { color: #592C6C; }
+    .grain::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .35;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    }
+    .slot-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+    }
+  </style>
+</helmet>
+
+<div class="grain" style="position: relative; width: 1440px; height: 900px; background: #FCF9F6; overflow: hidden;">
+
+  <!-- photo panel, bleeding off the right edge: breaks the container the current site never leaves -->
+  <div style="position: absolute; top: 0; right: 0; width: 616px; height: 900px; background: linear-gradient(200deg, #F1E7F5 0%, #FBEFDA 58%, #F6EFE7 100%); display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; gap: 10px; padding: 40px;">
+    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#8E7A96" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" style="opacity:.75">
+      <rect x="2.5" y="5" width="19" height="14.5" rx="2"></rect>
+      <circle cx="12" cy="12.2" r="3.6"></circle>
+      <path d="M8 5l1.4-2.2h5.2L16 5"></path>
+    </svg>
+    <span class="slot-label" style="color: #7A6C82;">Photo 01 · Nina</span>
+    <span style="font-size: 15px; color: #7A6C82; max-width: 34ch; line-height: 1.5;">Portrait, 3:4, natural color. Her face is the first thing anyone should see.</span>
+  </div>
+
+  <!-- paper edge over the photo, so the two planes overlap instead of butting together -->
+  <div style="position: absolute; top: 0; left: 792px; width: 120px; height: 900px; background: linear-gradient(90deg, #FCF9F6 0%, #FCF9F6 42%, rgba(252,249,246,0) 100%);"></div>
+
+  <div style="position: absolute; top: 96px; left: 96px; width: 700px; display: flex; flex-direction: column; gap: 22px;">
+    <span class="slot-label" style="color: #A9660B;">Chicago · In memory of Nina Mastro · Since 2019</span>
+    <h1 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 82px; line-height: 0.98; letter-spacing: -0.03em; color: #2B2032; text-wrap: balance;">
+      Cancer takes enough.<br>
+      <span style="color: #592C6C;">It shouldn&#39;t take<br>the rent, too.</span>
+    </h1>
+    <p style="margin: 0; font-size: 20px; line-height: 1.6; color: #4F4257; max-width: 40ch;">
+      We&#39;re a group of lifelong Chicago friends who lost Nina to pancreatic cancer. Every year we throw a party and hand everything we raise to one family.
+    </p>
+    <div style="display: flex; align-items: center; gap: 28px; padding-top: 4px;">
+      <a href="#" style="display: inline-flex; align-items: center; gap: 10px; background: #592C6C; color: #FCF9F6; font-size: 17px; font-weight: 600; padding: 17px 34px; border-radius: 999px; box-shadow: 0 2px 4px rgba(43,32,50,.06), 0 22px 44px -20px rgba(43,32,50,.34);">
+        Donate
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9.5 4l4 4-4 4"></path></svg>
+      </a>
+      <a href="#" style="font-size: 16px; font-weight: 600; color: #4F4257; border-bottom: 2px solid #E29A2C; padding-bottom: 2px;">Other ways to help</a>
+    </div>
+  </div>
+
+  <!-- numbers ride ON the seam between paper and photo, tying the two planes together -->
+  <div style="position: absolute; left: 96px; bottom: 84px; width: 812px; background: #FFFFFF; border-radius: 20px; box-shadow: 0 2px 4px rgba(43,32,50,.06), 0 22px 44px -20px rgba(43,32,50,.34); display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 0; overflow: hidden;">
+    <div style="display: flex; flex-direction: column; gap: 2px; padding: 26px 30px; background: #592C6C;">
+      <span style="font-family: Fraunces, Georgia, serif; font-size: 52px; font-weight: 600; line-height: 1; letter-spacing: -0.02em; color: #FCF9F6; font-variant-numeric: tabular-nums;">$95,000+</span>
+      <span class="slot-label" style="color: rgba(252,249,246,.72);">Given away since 2019</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 2px; padding: 26px 24px; border-right: 1px solid #E7DCD3;">
+      <span style="font-family: Fraunces, Georgia, serif; font-size: 40px; font-weight: 600; line-height: 1.15; letter-spacing: -0.02em; color: #2B2032; font-variant-numeric: tabular-nums;">21</span>
+      <span class="slot-label" style="color: #7A6C82;">Families</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 2px; padding: 26px 24px;">
+      <span style="font-family: Fraunces, Georgia, serif; font-size: 40px; font-weight: 600; line-height: 1.15; letter-spacing: -0.02em; color: #2B2032; font-variant-numeric: tabular-nums;">1</span>
+      <span class="slot-label" style="color: #7A6C82;">Family each year</span>
+    </div>
+  </div>
+
+  <div style="position: absolute; left: 96px; bottom: 40px; display: flex; align-items: center; gap: 10px;">
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#A9660B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8.5l3.5 3.5 7.5-8"></path></svg>
+    <span style="font-size: 14px; color: #7A6C82;">Registered 501(c)(3) · EIN 84-2055686 · Every gift is tax-deductible</span>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
