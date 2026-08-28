@@ -16,6 +16,8 @@ export type NmoEvent = {
   venue: string;
   address?: string;
   description: string;
+  /** Optional line shown on the featured poster, e.g. "Our biggest day of the year". */
+  tagline?: string;
   /** Optional ticket or RSVP link. */
   ticketUrl?: string;
   photo?: string;
@@ -25,11 +27,12 @@ export const events: NmoEvent[] = [
   {
     slug: "block-party",
     name: "The Annual Block Party",
+    tagline: "Our biggest day of the year",
     date: "",
     venue: "Shinnick's Pub",
     address: "[street address], Chicago, IL",
     description:
-      "Our biggest day of the year. Live bands, raffle baskets stacked to the ceiling, and the whole neighborhood on one block. Bring your family, bring cash for the raffle, stay for the last set.",
+      "Live bands, raffle baskets stacked to the ceiling, and the whole neighborhood on one block. Bring your family, bring cash for the raffle, stay for the last set.",
   },
   {
     slug: "purplestride",

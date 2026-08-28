@@ -10,9 +10,10 @@ import {
 } from "@/components/ui";
 import { currentCampaign, impact, site } from "@/content/site";
 import { events } from "@/content/events";
+import { EventCard, EventPoster } from "@/components/EventCards";
 import { recipients } from "@/content/recipients";
 import { sponsors } from "@/content/sponsors";
-import { clean, eventDateParts, hasStore, splitEvents, usd } from "@/lib/format";
+import { clean, hasStore, splitEvents, usd } from "@/lib/format";
 
 const waysToHelp = [
   {
@@ -51,76 +52,115 @@ export default function HomePage() {
   return (
     <>
       {/* ---------------------------------------------------------------- hero */}
-      <section className="warm-wash border-b border-line">
-        <Container className="py-16 sm:py-20 lg:py-28">
-          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 items-center">
-            <div className="flex flex-col gap-6">
-              <Eyebrow>In memory of Nina Mastro · Chicago · Since {site.founded}</Eyebrow>
-              <h1 className="text-[2.6rem] sm:text-5xl lg:text-[4.1rem] leading-[1.03]">
-                Cancer takes enough.
-                <br />
-                <span className="text-plum">It shouldn&apos;t take the rent, too.</span>
-              </h1>
-              <p className="text-lg sm:text-xl text-ink-soft max-w-[46ch] leading-relaxed">
-                We&apos;re a group of lifelong Chicago friends who lost Nina to
-                pancreatic cancer. Every year we throw a party, fill a room, and hand
-                everything we raise to one family carrying the financial weight of
-                this disease.
-              </p>
-              <div className="flex flex-wrap gap-3 pt-1">
-                <Button href="/give" variant="primary" size="lg">
-                  Donate
-                </Button>
-                <Button href="/get-involved" variant="ghost" size="lg">
-                  Other ways to help
-                </Button>
-              </div>
-              <p className="text-sm text-muted flex flex-wrap items-center gap-x-2 gap-y-1">
-                <span>Registered 501(c)(3)</span>
-                <span aria-hidden="true">·</span>
-                <span className="tabular">EIN {site.ein}</span>
-                <span aria-hidden="true">·</span>
-                <span>Every gift is tax-deductible</span>
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <Photo
-                alt="Nina"
-                label="Nina — the photo everything is built around"
-                ratio="2/3"
-                className="col-span-1"
-              />
-              <div className="flex flex-col gap-4">
-                <Photo alt="The Block Party crowd" label="The Block Party" ratio="4/3" />
-                <Photo
-                  alt="Handing over the check"
-                  label="Handing it over"
-                  ratio="4/3"
-                />
-              </div>
-            </div>
+      <section className="relative overflow-hidden bg-paper grain border-b border-line">
+        <div className="relative mx-auto max-w-[1600px] grid lg:grid-cols-[1fr_44%] items-stretch">
+          {/* Photo leads on a phone, sits to the side on a laptop, and bleeds
+              off the right edge rather than sitting inside the container. */}
+          <div className="order-1 lg:order-2 relative min-h-[260px] sm:min-h-[340px] lg:min-h-[640px]">
+            <Photo
+              variant="panel"
+              fill
+              alt="Nina"
+              label="Portrait, 3:4, natural color. Her face is the first thing anyone should see."
+              className="absolute inset-0 lg:items-end lg:text-right"
+              priority
+            />
           </div>
-        </Container>
-      </section>
 
-      {/* -------------------------------------------------------------- impact */}
-      <section className="bg-card border-b border-line">
-        <Container>
-          <dl className="grid grid-cols-2 lg:grid-cols-4 divide-y divide-line lg:divide-y-0 lg:divide-x">
-            {impact.map((stat) => (
-              <div key={stat.label} className="flex flex-col gap-1 py-8 px-4 sm:px-6">
-                <dt className="sr-only">{stat.label}</dt>
-                <dd className="font-display text-3xl sm:text-4xl lg:text-[2.7rem] font-semibold text-plum leading-none tabular">
-                  {stat.value}
-                </dd>
-                <dd className="text-[13px] uppercase tracking-[0.07em] text-muted font-medium">
-                  {stat.label}
-                </dd>
+          <div className="order-2 lg:order-1 relative z-10 w-[92%] lg:w-auto mx-auto lg:mx-0 lg:ml-[max(4vw,2.5rem)] lg:mr-0 py-14 sm:py-16 lg:py-24 flex flex-col gap-6">
+            <Eyebrow>
+              Chicago · In memory of Nina Mastro · Since {site.founded}
+            </Eyebrow>
+            <h1 className="text-[2.7rem] sm:text-[3.4rem] lg:text-[5.1rem] leading-[0.99] tracking-[-0.03em]">
+              Cancer takes enough.
+              <br />
+              <span className="text-plum">
+                It shouldn&apos;t take the rent, too.
+              </span>
+            </h1>
+            <p className="text-lg sm:text-xl text-ink-soft max-w-[40ch] leading-relaxed">
+              We&apos;re a group of lifelong Chicago friends who lost Nina to
+              pancreatic cancer. Every year we throw a party and hand everything we
+              raise to one family.
+            </p>
+
+            {/* One button, not two competing ones. */}
+            <div className="flex flex-wrap items-center gap-x-7 gap-y-4 pt-1">
+              <Button href="/give" variant="primary" size="lg">
+                Donate
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M2.5 8h11M9.5 4l4 4-4 4" />
+                </svg>
+              </Button>
+              <Link
+                href="/get-involved"
+                className="font-semibold text-ink-soft no-underline border-b-2 border-gold-bright pb-0.5 hover:text-plum"
+              >
+                Other ways to help
+              </Link>
+            </div>
+
+            {/* The numbers ride on the seam, and $95,000 is finally the
+                biggest thing on the page. */}
+            <div className="mt-4 lg:mt-8 lg:w-[118%] bg-card rounded-2xl shadow-lift overflow-hidden grid grid-cols-2 sm:grid-cols-[1.5fr_1fr_1fr]">
+              <div className="col-span-2 sm:col-span-1 flex flex-col gap-0.5 px-7 py-6 bg-plum">
+                <span className="font-display text-[2.6rem] sm:text-[3.1rem] font-semibold leading-none tracking-[-0.02em] text-paper tabular">
+                  {impact.headline.value}
+                </span>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/70">
+                  {impact.headline.label}
+                </span>
               </div>
-            ))}
-          </dl>
-        </Container>
+              {impact.secondary.map((stat, i) => (
+                <div
+                  key={stat.label}
+                  className={`flex flex-col gap-0.5 px-6 py-6 border-t sm:border-t-0 border-line ${
+                    i === 0 ? "sm:border-r" : ""
+                  }`}
+                >
+                  <span className="font-display text-[2.2rem] font-semibold leading-tight tracking-[-0.02em] text-ink tabular">
+                    {stat.value}
+                  </span>
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">
+                    {stat.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <p className="text-sm text-muted flex flex-wrap items-center gap-x-2 gap-y-1">
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+                className="text-gold"
+              >
+                <path d="M2.5 8.5l3.5 3.5 7.5-8" />
+              </svg>
+              <span>Registered 501(c)(3)</span>
+              <span aria-hidden="true">·</span>
+              <span className="tabular">EIN {site.ein}</span>
+              <span aria-hidden="true">·</span>
+              <span>Every gift is tax-deductible</span>
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* ------------------------------------------------------ this year's family */}
@@ -277,44 +317,16 @@ export default function HomePage() {
                 All events
               </Button>
             </div>
-            <ul className="list-none p-0 m-0 flex flex-col border-t border-line-strong">
-              {nextEvents.map((event) => {
-                const parts = eventDateParts(event.date);
-                return (
-                  <li
-                    key={event.slug}
-                    className="grid gap-4 sm:grid-cols-[88px_1fr_auto] sm:gap-6 items-center py-6 border-b border-line-strong"
-                  >
-                    <div className="flex sm:flex-col items-baseline sm:items-center gap-2 sm:gap-0 text-plum">
-                      {parts ? (
-                        <>
-                          <span className="text-xs font-semibold uppercase tracking-[0.12em]">
-                            {parts.month}
-                          </span>
-                          <span className="font-display text-3xl font-semibold tabular leading-none">
-                            {parts.day}
-                          </span>
-                        </>
-                      ) : (
-                        <span className="text-xs font-semibold uppercase tracking-[0.12em] text-gold">
-                          Date TBA
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      <h3 className="text-xl sm:text-2xl">{event.name}</h3>
-                      <p className="text-muted text-[15px]">
-                        {clean(event.venue)}
-                        {event.address ? ` · ${clean(event.address)}` : ""}
-                      </p>
-                    </div>
-                    <Button href="/events" variant="ghost">
-                      Details
-                    </Button>
-                  </li>
-                );
-              })}
-            </ul>
+            <div className="grid gap-6 lg:grid-cols-[1.15fr_1fr]">
+              <EventPoster event={nextEvents[0]} />
+              {nextEvents.length > 1 ? (
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1">
+                  {nextEvents.slice(1, 3).map((event) => (
+                    <EventCard key={event.slug} event={event} />
+                  ))}
+                </div>
+              ) : null}
+            </div>
           </Container>
         </Section>
       ) : null}

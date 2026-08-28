@@ -52,19 +52,24 @@ export const site = {
 } as const;
 
 /**
- * The headline numbers. These do the most persuading on the whole site,
- * so keep them current — update after every event and every gift.
+ * The headline numbers, as they appear in the hero.
  *
- * Only claim what the board can stand behind. If every dollar raised really
- * does reach the family, say so here ("100%" / "Of proceeds go to the family")
- * — it is the single most convincing thing a small charity can put on a page.
+ * These do the most persuading on the whole site, so keep them current —
+ * update after every event and every gift.
+ *
+ * `headline` is deliberately the only big one: giving all four numbers equal
+ * weight is what made the old version read like a dashboard. Only claim what
+ * the board can stand behind. If every dollar raised really does reach the
+ * family, that belongs here — it is the single most convincing thing a small
+ * charity can put on a page.
  */
-export const impact = [
-  { value: "$95,000+", label: "Donated since 2019" },
-  { value: "21", label: "Families supported" },
-  { value: "1", label: "Recipient family chosen each year" },
-  { value: "501(c)(3)", label: "Every gift is tax-deductible" },
-] as const;
+export const impact = {
+  headline: { value: "$95,000+", label: "Given away since 2019" },
+  secondary: [
+    { value: "21", label: "Families" },
+    { value: "1", label: "Family each year" },
+  ],
+} as const;
 
 /**
  * The family we are currently raising for.

@@ -92,6 +92,29 @@
       radial-gradient(60ch 45ch at 92% 0%, var(--color-plum-tint), transparent 62%);
   }
 
+  /* Paper grain. The cheapest atmosphere there is — put it on a positioned
+     parent, since it paints through a pseudo-element. */
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+
+  /* Cheap-print dot screen. Events and merch only. */
+  .halftone {
+    background-image: radial-gradient(rgba(43, 32, 50, 0.16) 1.2px, transparent 1.4px);
+    background-size: 8px 8px;
+  }
+
+  /* Same screen, for dark grounds — dark dots on plum are invisible. */
+  .halftone-light {
+    background-image: radial-gradient(rgba(252, 249, 246, 0.16) 1.2px, transparent 1.4px);
+    background-size: 8px 8px;
+  }
+
   /* Photo placeholders — visibly "your photo goes here" rather than broken. */
   .photo-slot {
     background-image:

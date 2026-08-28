@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Button, Card, Container, Eyebrow, Photo, Section, SectionHead } from "@/components/ui";
+import { Button, Card, Container, Eyebrow, Section, SectionHead } from "@/components/ui";
+import { EventCard, EventPoster } from "@/components/EventCards";
 import { events } from "@/content/events";
 import { clean, formatEventDate, splitEvents } from "@/lib/format";
 
@@ -41,40 +42,19 @@ export default function EventsPage() {
               </p>
             </Card>
           ) : (
-            <ul className="list-none p-0 m-0 grid gap-7 lg:grid-cols-2">
-              {upcoming.map((event) => (
-                <li key={event.slug}>
-                  <Card className="flex flex-col gap-4 h-full">
-                    <Photo
-                      src={event.photo}
-                      alt={event.name}
-                      label={`${event.name} — a photo from last year`}
-                      ratio="16/9"
-                    />
-                    <div className="flex flex-col gap-2">
-                      <Eyebrow>{formatEventDate(event.date)}</Eyebrow>
-                      <h3 className="text-2xl">{event.name}</h3>
-                      <p className="text-[15px] text-muted">
-                        {clean(event.venue)}
-                        {event.address ? ` · ${clean(event.address)}` : ""}
-                        {event.time ? ` · ${event.time}` : ""}
-                      </p>
-                    </div>
-                    <p className="text-ink-soft leading-relaxed">{event.description}</p>
-                    <div className="mt-auto pt-2 flex flex-wrap gap-3">
-                      {event.ticketUrl ? (
-                        <Button href={event.ticketUrl} variant="primary">
-                          Get tickets
-                        </Button>
-                      ) : null}
-                      <Button href="/get-involved#volunteer" variant="ghost">
-                        Help run it
-                      </Button>
-                    </div>
-                  </Card>
-                </li>
-              ))}
-            </ul>
+            <div className="flex flex-col gap-8">
+              {/* Only the next one shouts. */}
+              <EventPoster event={upcoming[0]} wide />
+              {upcoming.length > 1 ? (
+                <ul className="list-none p-0 m-0 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+                  {upcoming.slice(1).map((event) => (
+                    <li key={event.slug}>
+                      <EventCard event={event} />
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
           )}
         </Container>
       </Section>

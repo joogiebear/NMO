@@ -181,6 +181,8 @@ export function Photo({
   ratio = "4/5",
   className = "",
   priority = false,
+  variant = "slot",
+  fill = false,
 }: {
   src?: string;
   alt: string;
@@ -188,7 +190,15 @@ export function Photo({
   ratio?: string;
   className?: string;
   priority?: boolean;
+  /** "slot" is the dashed placeholder; "panel" is a full-bleed field. */
+  variant?: "slot" | "panel";
+  /** Fill the parent instead of holding an aspect ratio. */
+  fill?: boolean;
 }) {
+  const sizing = fill
+    ? { width: "100%", height: "100%" }
+    : { aspectRatio: ratio };
+
   if (src) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
@@ -196,15 +206,50 @@ export function Photo({
         src={src}
         alt={alt}
         loading={priority ? "eager" : "lazy"}
-        className={`w-full h-full object-cover rounded-2xl ${className}`}
-        style={{ aspectRatio: ratio }}
+        className={`w-full h-full object-cover ${variant === "slot" ? "rounded-2xl" : ""} ${className}`}
+        style={sizing}
       />
     );
   }
+
+  if (variant === "panel") {
+    return (
+      <div
+        className={`flex flex-col justify-end gap-2.5 p-8 bg-[linear-gradient(200deg,#E2CFEC_0%,#F6DFB6_56%,#EADFD4_100%)] ${className}`}
+        style={sizing}
+        role="img"
+        aria-label={`Photo placeholder: ${alt}`}
+      >
+        <svg
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+          className="text-muted/70"
+        >
+          <rect x="2.5" y="5" width="19" height="14.5" rx="2" />
+          <circle cx="12" cy="12.2" r="3.6" />
+          <path d="M8 5l1.4-2.2h5.2L16 5" />
+        </svg>
+        <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">
+          Photo
+        </span>
+        <span className="text-sm text-muted leading-snug max-w-[34ch]">
+          {label ?? alt}
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div
       className={`photo-slot rounded-2xl border border-dashed border-line-strong flex flex-col justify-end gap-1 p-5 ${className}`}
-      style={{ aspectRatio: ratio }}
+      style={sizing}
       role="img"
       aria-label={`Photo placeholder: ${alt}`}
     >
