@@ -18,10 +18,24 @@ can type it however you like — `12400`, `12,400` or `$12,400` all work.
 The progress bar only shows once a goal is set. Set it under
 **This year's family**.
 
+## Messages & nominations
+
+When someone fills in a form on the site — a nomination, a volunteer sign-up, a
+sponsorship inquiry or a message — it lands in **Messages & nominations**. The
+admin page shows how many are new.
+
+Open one to read it, press **Reply by email** to answer, and press **Mark as
+done** once it has been dealt with so everyone else knows. Nothing is deleted;
+done items just move to the bottom.
+
+Nominations contain private details about a family's health and money. Only
+people with the admin password can see them — please keep it that way.
+
 ## Everything else
 
 | Section | What it changes |
 | --- | --- |
+| Home page headline | The big words at the very top of the site |
 | This year's family | The family on the home page, their story, photo, goal and total |
 | The big numbers | "$95,000+ given away", "21 families" — the totals in the header |
 | Events | Add an event, change a date. Past events move down on their own |
@@ -29,6 +43,14 @@ The progress bar only shows once a goal is set. Set it under
 | Sponsors | The thank-you list on the home page |
 | Board members | Names, roles and photos on the Our Story page |
 | Ways to give | Your Venmo handle, Zelle email and check instructions |
+| Sponsorship levels | What a business gets at each level |
+| Questions & answers | The common questions on the Ways to Give page |
+| Volunteer jobs & gift amounts | The volunteer form's checkboxes, and the suggested amounts |
+| Contact details & links | Email, mailing address, Facebook, Instagram, and the link to your shop |
+
+**Lists** (like what a sponsor gets, or the volunteer jobs) are typed one per
+line. **The shop:** paste the link under *Contact details & links* and a Shop
+button appears across the whole site; clear it and they all disappear.
 
 In each one: tap an entry to open it, change what you need, then press the gold
 **Save changes** button at the bottom. It's live as soon as it says "Saved."
@@ -55,7 +77,9 @@ just now", nothing was changed — wait a minute and try again.
   set on the Railway `web` service. Changing `ADMIN_PASSWORD` changes the
   password; changing `ADMIN_SESSION_SECRET` signs everyone out.
 - Content lives in the Railway Postgres service (`content`, `content_history`,
-  `media` tables, created automatically). The files in `content/` are the
+  `media` and `submissions` tables, created automatically). The files in `content/` are the
   defaults shown for any section nobody has saved yet.
+- Form submissions are always saved to the inbox. Setting `RESEND_API_KEY` +
+  `FORMS_TO_EMAIL` (or `FORMS_WEBHOOK_URL`) additionally emails each one.
 - What is editable, and how each field is checked, is defined in one place:
   `lib/admin-schema.ts`.
