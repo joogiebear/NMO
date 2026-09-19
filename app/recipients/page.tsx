@@ -1,7 +1,39 @@
 import type { Metadata } from "next";
 import { Button, Card, Container, Eyebrow, PageHeader, Photo, Section } from "@/components/ui";
-import { recipients } from "@/content/recipients";
-import { clean } from "@/lib/format";
+import { CountUp, RailNode, Reveal, ScrollRail } from "@/components/motion";
+import { recipients, type Recipient } from "@/content/recipients";
+import { impact } from "@/content/site";
+import { clean, usd } from "@/lib/format";
+
+const NODE = "absolute -left-[39px] md:-left-[63px] top-4 md:top-7 w-3.5 h-3.5";
+
+type Stop =
+  | { kind: "family"; recipient: Recipient; runningTotal: number }
+  | { kind: "gap"; from: number; to: number };
+
+/**
+ * Oldest first, so the page reads as a story that builds. Each family carries
+ * the running total up to and including their gift; any run of years with no
+ * entry yet collapses into a single honest "being added" stop.
+ */
+function buildStops(all: Recipient[], thisYear: number): Stop[] {
+  const sorted = [...all].sort((a, b) => a.year - b.year);
+  const stops: Stop[] = [];
+  let total = 0;
+  let previous: number | null = null;
+  for (const recipient of sorted) {
+    if (previous !== null && recipient.year - previous > 1) {
+      stops.push({ kind: "gap", from: previous + 1, to: recipient.year - 1 });
+    }
+    total += Number(recipient.amount?.replace(/[^\d]/g, "") ?? 0);
+    stops.push({ kind: "family", recipient, runningTotal: total });
+    previous = recipient.year;
+  }
+  if (previous !== null && thisYear - previous > 1) {
+    stops.push({ kind: "gap", from: previous + 1, to: thisYear - 1 });
+  }
+  return stops;
+}
 
 export const metadata: Metadata = {
   title: "Families We've Helped",
@@ -10,7 +42,7 @@ export const metadata: Metadata = {
 };
 
 export default function RecipientsPage() {
-  const sorted = [...recipients].sort((a, b) => b.year - a.year);
+  const stops = buildStops(recipients, new Date().getFullYear());
 
   return (
     <>
@@ -28,7 +60,7 @@ export default function RecipientsPage() {
 
       <Section tone="paper">
         <Container className="flex flex-col gap-10">
-          {sorted.length === 0 ? (
+          {stops.length === 0 ? (
             <Card>
               <p className="text-ink-soft">
                 Recipient stories are being added. In the meantime, you can read about{" "}
@@ -39,41 +71,92 @@ export default function RecipientsPage() {
               </p>
             </Card>
           ) : (
-            <ul className="list-none p-0 m-0 flex flex-col gap-8">
-              {sorted.map((r) => (
-                <li key={`${r.year}-${r.name}`}>
-                  <Card className="grid gap-7 md:grid-cols-[240px_1fr] md:gap-9 items-start">
-                    <Photo
-                      src={r.photo}
-                      alt={clean(r.name)}
-                      label={`${r.year} recipient`}
-                      ratio="1/1"
-                    />
-                    <div className="flex flex-col gap-3">
-                      <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                        <span className="font-display text-3xl font-semibold text-orchid tabular">
-                          {r.year}
+            <ScrollRail className="ml-2 md:ml-6">
+              <ol className="list-none p-0 m-0 pl-8 md:pl-14 flex flex-col gap-16 md:gap-24">
+                {stops.map((stop) =>
+                  stop.kind === "gap" ? (
+                    <li key={`gap-${stop.from}`} className="relative">
+                      <RailNode className={`${NODE} !bg-line-strong !shadow-none`} />
+                      <Reveal className="flex flex-col gap-2">
+                        <span className="font-display italic text-4xl md:text-6xl text-muted tabular">
+                          {stop.from === stop.to ? stop.from : `${stop.from} – ${stop.to}`}
                         </span>
-                        <h2 className="text-2xl">{clean(r.name)}</h2>
-                        {r.amount ? (
-                          <span className="rounded-full bg-gold-tint text-gold px-3 py-1 text-[13px] font-semibold tabular">
-                            {r.amount} raised
-                          </span>
-                        ) : null}
-                      </div>
-                      {r.diagnosis ? (
-                        <p className="text-[14px] uppercase tracking-[0.08em] text-muted font-semibold">
-                          {r.diagnosis}
+                        <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-muted">
+                          Stories being added — with each family&apos;s permission
                         </p>
-                      ) : null}
-                      <p className="text-ink-soft leading-relaxed max-w-[62ch]">
-                        {clean(r.story)}
-                      </p>
-                    </div>
-                  </Card>
+                      </Reveal>
+                    </li>
+                  ) : (
+                    <li key={`${stop.recipient.year}-${stop.recipient.name}`} className="relative">
+                      <RailNode className={NODE} />
+                      <Reveal className="flex flex-col gap-6">
+                        <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
+                          <span className="font-display font-black text-6xl md:text-8xl leading-[0.85] tracking-[-0.04em] text-orchid text-glow tabular">
+                            {stop.recipient.year}
+                          </span>
+                          {stop.runningTotal > 0 ? (
+                            <span className="flex flex-col md:items-end gap-1">
+                              <span className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-muted">
+                                Running total
+                              </span>
+                              <CountUp
+                                value={usd(stop.runningTotal)}
+                                className="font-display text-3xl md:text-4xl font-bold text-gold-bright tabular"
+                              />
+                            </span>
+                          ) : null}
+                        </div>
+                        <Card className="grid gap-7 md:grid-cols-[220px_1fr] md:gap-9 items-start">
+                          <Photo
+                            src={stop.recipient.photo}
+                            alt={clean(stop.recipient.name)}
+                            label={`${stop.recipient.year} recipient`}
+                            ratio="1/1"
+                          />
+                          <div className="flex flex-col gap-3">
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                              <h2 className="text-3xl md:text-4xl">{clean(stop.recipient.name)}</h2>
+                              {stop.recipient.amount ? (
+                                <span className="rounded-full bg-gold-tint border border-gold/30 text-gold px-3 py-1 font-mono text-[12px] tabular">
+                                  {stop.recipient.amount} raised
+                                </span>
+                              ) : null}
+                            </div>
+                            {stop.recipient.diagnosis ? (
+                              <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-muted">
+                                {stop.recipient.diagnosis}
+                              </p>
+                            ) : null}
+                            <p className="text-ink-soft leading-relaxed max-w-[62ch]">
+                              {clean(stop.recipient.story)}
+                            </p>
+                          </div>
+                        </Card>
+                      </Reveal>
+                    </li>
+                  ),
+                )}
+
+                {/* Where the line is heading: the real total, from content/site.ts. */}
+                <li className="relative">
+                  <RailNode className={`${NODE} !w-5 !h-5 -ml-[3px]`} />
+                  <Reveal className="flex flex-col gap-3">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-gold">
+                      Today
+                    </span>
+                    <CountUp
+                      value={impact.headline.value}
+                      className="font-display font-black text-[4.2rem] md:text-[9rem] leading-[0.85] tracking-[-0.05em] text-paper tabular [font-variation-settings:'opsz'_40]"
+                    />
+                    <p className="text-lg text-ink-soft max-w-[48ch]">
+                      {impact.headline.label}, to{" "}
+                      {impact.secondary[0].value} {impact.secondary[0].label.toLowerCase()} — and
+                      the line keeps going.
+                    </p>
+                  </Reveal>
                 </li>
-              ))}
-            </ul>
+              </ol>
+            </ScrollRail>
           )}
         </Container>
       </Section>

@@ -327,6 +327,56 @@ export function CountUp({ value, className = "" }: { value: string; className?: 
   );
 }
 
+/* -------------------------------------------------------------------- rail */
+
+/**
+ * A vertical line that draws itself as its contents scroll past — the spine of
+ * the /recipients timeline. Children position their own nodes against it; the
+ * rail sits at the container's left edge.
+ */
+export function ScrollRail({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 75%", "end 55%"],
+  });
+  const scaleY = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
+  return (
+    <div ref={ref} className={`relative ${className}`}>
+      <div
+        aria-hidden="true"
+        className="absolute left-0 top-0 bottom-0 w-px bg-line-strong/60"
+      />
+      <motion.div
+        aria-hidden="true"
+        className="absolute left-0 top-0 bottom-0 w-px origin-top bg-gradient-to-b from-orchid via-gold-bright to-gold shadow-glow-gold"
+        style={{ scaleY }}
+      />
+      {children}
+    </div>
+  );
+}
+
+/** A timeline node that lights up the first time it scrolls into view. */
+export function RailNode({ className = "" }: { className?: string }) {
+  return (
+    <motion.span
+      aria-hidden="true"
+      className={`reveal block rounded-full bg-gold-bright shadow-glow-gold ${className}`}
+      initial={{ scale: 0, opacity: 0 }}
+      whileInView={{ scale: 1, opacity: 1 }}
+      viewport={{ once: true, margin: "0px 0px -30% 0px" }}
+      transition={{ type: "spring", stiffness: 260, damping: 16 }}
+    />
+  );
+}
+
 /* ------------------------------------------------------------ page chrome */
 
 export function ScrollProgress() {
