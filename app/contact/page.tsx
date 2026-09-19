@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Field, SubmitForm, TextArea } from "@/components/Form";
-import { Card, Container, Eyebrow, Section } from "@/components/ui";
+import { Card, Container, PageHeader, Section } from "@/components/ui";
 import { site } from "@/content/site";
 import { clean } from "@/lib/format";
 
@@ -16,24 +16,20 @@ export default function ContactPage() {
 
   return (
     <>
-      <section className="warm-wash border-b border-line">
-        <Container className="py-14 sm:py-20">
-          <div className="flex flex-col gap-5 max-w-3xl">
-            <Eyebrow>Contact</Eyebrow>
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.6rem]">
-              There&apos;s a person on the other end of this.
-            </h1>
-            <p className="text-lg sm:text-xl text-ink-soft leading-relaxed max-w-[52ch]">
-              Questions about giving, an event, a nomination, or your company&apos;s
+      <PageHeader
+        eyebrow="Contact"
+        title="There’s a person on the other end of this."
+        lede={
+          <>
+            Questions about giving, an event, a nomination, or your company&apos;s
               matching form — write to us and one of us will answer.
-            </p>
-          </div>
-        </Container>
-      </section>
+          </>
+        }
+      />
 
       <Section tone="paper">
         <Container className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 items-start">
-          <Card>
+          <Card tilt={false}>
             <SubmitForm
               kind="message"
               submitLabel="Send message"
@@ -58,7 +54,7 @@ export default function ContactPage() {
               <h2 className="text-xl">Email</h2>
               <a
                 href={`mailto:${email}`}
-                className="text-plum font-semibold break-all no-underline hover:text-gold"
+                className="text-orchid font-semibold break-all no-underline hover:text-gold"
               >
                 {email}
               </a>
@@ -90,7 +86,7 @@ export default function ContactPage() {
                   href={site.social.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-plum font-semibold no-underline hover:text-gold"
+                  className="text-orchid font-semibold no-underline hover:text-gold"
                 >
                   Facebook
                 </a>

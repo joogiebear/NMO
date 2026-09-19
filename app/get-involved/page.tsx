@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { CheckboxGroup, Field, SubmitForm, TextArea } from "@/components/Form";
-import { Card, Container, Eyebrow, Section, SectionHead } from "@/components/ui";
+import { Card, Container, PageHeader, Section, SectionHead } from "@/components/ui";
 import { site, volunteerRoles } from "@/content/site";
 import { clean } from "@/lib/format";
 
@@ -21,32 +21,29 @@ export default function GetInvolvedPage() {
 
   return (
     <>
-      <section className="warm-wash border-b border-line">
-        <Container className="py-14 sm:py-20">
-          <div className="flex flex-col gap-5 max-w-3xl">
-            <Eyebrow>Get involved</Eyebrow>
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.6rem]">
-              You don&apos;t have to know us to help us.
-            </h1>
-            <p className="text-lg sm:text-xl text-ink-soft leading-relaxed max-w-[54ch]">
-              Most of the people who work our events had never met Nina. They came
+      <PageHeader
+        eyebrow="Get involved"
+        title="You don’t have to know us to help us."
+        lede={
+          <>
+            Most of the people who work our events had never met Nina. They came
               once, liked the room, and kept coming back. Here&apos;s where to start.
-            </p>
-            <ul className="list-none p-0 m-0 flex flex-wrap gap-3 pt-2">
-              {jump.map((j) => (
-                <li key={j.href}>
-                  <a
-                    href={j.href}
-                    className="inline-block rounded-full border-2 border-line-strong px-5 py-2 text-[15px] font-semibold no-underline text-ink hover:border-plum hover:text-plum"
-                  >
-                    {j.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Container>
-      </section>
+          </>
+        }
+      >
+        <ul className="list-none p-0 m-0 flex flex-wrap gap-3 pt-2">
+          {jump.map((j) => (
+            <li key={j.href}>
+              <a
+                href={j.href}
+                className="inline-block rounded-full border-2 border-line-strong px-5 py-2 text-[15px] font-semibold no-underline text-ink hover:border-plum hover:text-orchid"
+              >
+                {j.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </PageHeader>
 
       {/* ------------------------------------------------------------ nominate */}
       <Section tone="paper" id="nominate">
@@ -73,7 +70,7 @@ export default function GetInvolvedPage() {
             </Card>
           </div>
 
-          <Card>
+          <Card tilt={false}>
             <SubmitForm
               kind="nomination"
               submitLabel="Submit nomination"
@@ -124,7 +121,7 @@ export default function GetInvolvedPage() {
               lede="No experience, no commitment, no meetings. Turn up, we'll tell you where to stand."
             />
           </div>
-          <Card>
+          <Card tilt={false}>
             <SubmitForm
               kind="volunteer"
               submitLabel="Count me in"
@@ -173,7 +170,7 @@ export default function GetInvolvedPage() {
               </p>
             </Card>
           </div>
-          <Card>
+          <Card tilt={false}>
             <SubmitForm
               kind="sponsor"
               submitLabel="Talk to us about sponsoring"

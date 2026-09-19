@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Button, Card, Container, Eyebrow, Photo, Section, SectionHead } from "@/components/ui";
+import { Button, Card, Container, Eyebrow, PageHeader, Photo, Section, SectionHead } from "@/components/ui";
 import { board } from "@/content/board";
 import { site } from "@/content/site";
 import { clean } from "@/lib/format";
@@ -15,20 +15,16 @@ const namedBoard = board.filter((m) => !m.name.startsWith("TODO_"));
 export default function StoryPage() {
   return (
     <>
-      <section className="warm-wash border-b border-line">
-        <Container className="py-14 sm:py-20">
-          <div className="flex flex-col gap-5 max-w-3xl">
-            <Eyebrow>Our story</Eyebrow>
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.6rem]">
-              It started with one friend, and a promise.
-            </h1>
-            <p className="text-lg sm:text-xl text-ink-soft leading-relaxed max-w-[52ch]">
-              Nina Mastro was the kind of friend who showed up for everybody. When she
+      <PageHeader
+        eyebrow="Our story"
+        title="It started with one friend, and a promise."
+        lede={
+          <>
+            Nina Mastro was the kind of friend who showed up for everybody. When she
               needed people, they showed up for her — and they never stopped.
-            </p>
-          </div>
-        </Container>
-      </section>
+          </>
+        }
+      />
 
       <Section tone="paper">
         <Container className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 items-start">

@@ -107,7 +107,7 @@ export function CheckboxGroup({
             type="checkbox"
             name={name}
             value={option}
-            className="mt-1.5 w-4 h-4 accent-[#592C6C]"
+            className="mt-1.5 w-4 h-4 accent-orchid"
           />
           <span>{option}</span>
         </label>
@@ -173,7 +173,7 @@ export function SubmitForm({
         role="status"
         className="rounded-2xl border-2 border-plum bg-plum-tint p-6 flex flex-col gap-2"
       >
-        <h3 className="text-xl text-plum">Got it — thank you.</h3>
+        <h3 className="text-xl text-orchid">Got it — thank you.</h3>
         <p className="text-ink-soft leading-relaxed">{successMessage}</p>
       </div>
     );
@@ -197,14 +197,14 @@ export function SubmitForm({
         </Button>
         <p className="text-[14px] text-muted">
           Or email us at{" "}
-          <a href={`mailto:${fallbackEmail}`} className="text-plum font-medium">
+          <a href={`mailto:${fallbackEmail}`} className="text-orchid font-medium">
             {fallbackEmail}
           </a>
         </p>
       </div>
 
       {state === "error" ? (
-        <p role="alert" className="text-[15px] text-plum bg-plum-tint rounded-xl px-4 py-3">
+        <p role="alert" className="text-[15px] text-orchid bg-plum-tint rounded-xl px-4 py-3">
           {message} Please email us at{" "}
           <a href={`mailto:${fallbackEmail}`} className="font-semibold underline">
             {fallbackEmail}

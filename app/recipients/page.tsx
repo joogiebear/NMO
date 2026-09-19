@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Button, Card, Container, Eyebrow, Photo, Section } from "@/components/ui";
+import { Button, Card, Container, Eyebrow, PageHeader, Photo, Section } from "@/components/ui";
 import { recipients } from "@/content/recipients";
 import { clean } from "@/lib/format";
 
@@ -14,21 +14,17 @@ export default function RecipientsPage() {
 
   return (
     <>
-      <section className="warm-wash border-b border-line">
-        <Container className="py-14 sm:py-20">
-          <div className="flex flex-col gap-5 max-w-3xl">
-            <Eyebrow>Families we&apos;ve helped</Eyebrow>
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.6rem]">
-              Every year has a name behind it.
-            </h1>
-            <p className="text-lg sm:text-xl text-ink-soft leading-relaxed max-w-[54ch]">
-              Twenty-one families since 2019, and more than $95,000 handed over. These
+      <PageHeader
+        eyebrow="Families we’ve helped"
+        title="Every year has a name behind it."
+        lede={
+          <>
+            Twenty-one families since 2019, and more than $95,000 handed over. These
               are the people that number is actually about — shared with their
               permission, in their words wherever we can.
-            </p>
-          </div>
-        </Container>
-      </section>
+          </>
+        }
+      />
 
       <Section tone="paper">
         <Container className="flex flex-col gap-10">
@@ -36,7 +32,7 @@ export default function RecipientsPage() {
             <Card>
               <p className="text-ink-soft">
                 Recipient stories are being added. In the meantime, you can read about{" "}
-                <a href="/story" className="text-plum font-semibold">
+                <a href="/story" className="text-orchid font-semibold">
                   how this all started
                 </a>
                 .
@@ -55,7 +51,7 @@ export default function RecipientsPage() {
                     />
                     <div className="flex flex-col gap-3">
                       <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                        <span className="font-display text-3xl font-semibold text-plum tabular">
+                        <span className="font-display text-3xl font-semibold text-orchid tabular">
                           {r.year}
                         </span>
                         <h2 className="text-2xl">{clean(r.name)}</h2>

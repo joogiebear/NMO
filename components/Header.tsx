@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { Button, Container } from "./ui";
 import { site } from "@/content/site";
@@ -24,7 +25,7 @@ export function Header() {
   }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-50 bg-paper/90 backdrop-blur-md border-b border-line">
+    <header className="sticky top-0 z-50 bg-ground/60 backdrop-blur-xl backdrop-saturate-150 border-b border-line/70">
       <Container className="flex items-center justify-between gap-4 py-3">
         <Link
           href="/"
@@ -32,7 +33,7 @@ export function Header() {
         >
           <span
             aria-hidden="true"
-            className="grid place-items-center w-10 h-10 rounded-full bg-plum text-paper font-display text-lg font-semibold shrink-0"
+            className="grid place-items-center w-10 h-10 rounded-full bg-gradient-to-br from-orchid to-plum text-paper font-display italic text-lg font-bold shrink-0 shadow-glow-orchid"
           >
             N
           </span>
@@ -40,7 +41,7 @@ export function Header() {
             <span className="font-display text-[15px] sm:text-[17px] font-semibold tracking-tight leading-[1.15]">
               Nina Mastro Organization
             </span>
-            <span className="text-[11px] tracking-[0.04em] text-muted whitespace-nowrap">
+            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted whitespace-nowrap">
               Chicago · 501(c)(3)
             </span>
           </span>
@@ -48,7 +49,7 @@ export function Header() {
 
         <nav
           aria-label="Main"
-          className="hidden lg:flex items-center gap-7 text-[15px]"
+          className="hidden lg:flex items-center gap-8 font-mono text-[12.5px] uppercase tracking-[0.14em]"
         >
           {links.map((l) => {
             const active = pathname === l.href;
@@ -57,9 +58,9 @@ export function Header() {
                 key={l.href}
                 href={l.href}
                 aria-current={active ? "page" : undefined}
-                className={`no-underline font-medium border-b-2 pb-0.5 transition-colors ${
+                className={`no-underline font-medium border-b pb-1 transition-colors duration-300 ${
                   active
-                    ? "text-plum border-gold-bright"
+                    ? "text-orchid border-gold-bright"
                     : "text-ink-soft border-transparent hover:text-ink hover:border-gold-bright"
                 }`}
               >
@@ -112,14 +113,22 @@ export function Header() {
         </div>
       </Container>
 
+      <AnimatePresence>
       {open ? (
-        <div id="mobile-nav" className="lg:hidden border-t border-line bg-paper">
+        <motion.div
+          id="mobile-nav"
+          className="lg:hidden overflow-hidden border-t border-line bg-ground/95 backdrop-blur-xl"
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+        >
           <Container className="flex flex-col py-3">
             {links.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
-                className="no-underline text-ink font-medium py-3 border-b border-line last:border-0"
+                className="no-underline text-ink font-display text-2xl py-3.5 border-b border-line last:border-0"
               >
                 {l.label}
               </Link>
@@ -129,20 +138,21 @@ export function Header() {
                 href={storeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="no-underline text-ink font-medium py-3 border-b border-line"
+                className="no-underline text-ink font-display text-2xl py-3.5 border-b border-line"
               >
                 {site.store.label}
               </a>
             ) : null}
             <Link
               href="/contact"
-              className="no-underline text-ink font-medium py-3"
+              className="no-underline text-ink font-display text-2xl py-3.5"
             >
               Contact
             </Link>
           </Container>
-        </div>
+        </motion.div>
       ) : null}
+      </AnimatePresence>
     </header>
   );
 }

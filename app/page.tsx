@@ -1,5 +1,12 @@
 import Link from "next/link";
 import {
+  CountUp,
+  ParallaxLayer,
+  ParallaxScene,
+  Reveal,
+  RevealText,
+} from "@/components/motion";
+import {
   Button,
   Card,
   Container,
@@ -51,42 +58,109 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ---------------------------------------------------------------- hero */}
-      <section className="relative overflow-hidden bg-paper grain border-b border-line">
-        <div className="relative mx-auto max-w-[1600px] grid lg:grid-cols-[1fr_44%] items-stretch">
-          {/* Photo leads on a phone, sits to the side on a laptop, and bleeds
-              off the right edge rather than sitting inside the container. */}
-          <div className="order-1 lg:order-2 relative min-h-[260px] sm:min-h-[340px] lg:min-h-[640px]">
-            <Photo
-              variant="panel"
-              fill
-              alt="Nina"
-              label="Portrait, 3:4, natural color. Her face is the first thing anyone should see."
-              className="absolute inset-0 lg:items-end lg:text-right"
-              priority
-            />
+      {/* ---------------------------------------------------------------- hero
+          Three planes, each a ParallaxLayer moving at its own rate as the scene
+          scrolls away: light and the outlined name at the back, the portrait in
+          the middle, the words and the numbers in front. */}
+      <ParallaxScene
+        ground="#0D0812"
+        className="relative overflow-hidden grain border-b border-line"
+      >
+        {/* Back plane — slowest. */}
+        <ParallaxLayer speed={260} className="absolute inset-0">
+          <div aria-hidden="true" className="aurora" />
+          <div
+            aria-hidden="true"
+            className="halftone absolute inset-0 opacity-50 [mask-image:radial-gradient(ellipse_at_30%_40%,black,transparent_70%)]"
+          />
+        </ParallaxLayer>
+        <ParallaxLayer
+          speed={180}
+          fadeTo={0}
+          className="absolute inset-x-0 bottom-[-0.12em] pointer-events-none select-none font-display italic font-black leading-none text-outline text-[44vw] lg:text-[30vw] -ml-[2vw] whitespace-nowrap"
+        >
+          <span aria-hidden="true">Nina</span>
+        </ParallaxLayer>
+
+        <div className="relative mx-auto max-w-[1600px] grid lg:grid-cols-[1fr_42%] items-stretch lg:min-h-[calc(100svh-5rem)]">
+          {/* Middle plane — the portrait. Leads on a phone, bleeds off the
+              right edge on a laptop. */}
+          <div className="order-1 lg:order-2 relative min-h-[300px] sm:min-h-[380px]">
+            <ParallaxLayer
+              speed={110}
+              className="absolute inset-0 lg:top-10 lg:bottom-14 lg:left-6 overflow-hidden lg:rounded-l-[2.75rem] lg:border lg:border-r-0 lg:border-line-strong/70 shadow-lift"
+            >
+              <ParallaxLayer scaleTo={1.16} className="absolute inset-0">
+                <Photo
+                  variant="panel"
+                  fill
+                  alt="Nina"
+                  label="Portrait, 3:4, natural color. Her face is the first thing anyone should see."
+                  className="absolute inset-0 lg:items-end lg:text-right"
+                  priority
+                />
+              </ParallaxLayer>
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 bg-gradient-to-t from-ground via-ground/10 to-transparent lg:from-ground/70"
+              />
+            </ParallaxLayer>
+            {/* Loose light between the planes; runs ahead of the scroll. */}
+            <ParallaxLayer
+              speed={-160}
+              className="hidden lg:block absolute -left-16 top-[56%] pointer-events-none"
+            >
+              <div
+                aria-hidden="true"
+                className="w-36 h-36 rounded-full border border-gold-bright/60 animate-float shadow-glow-gold"
+              />
+            </ParallaxLayer>
+            <ParallaxLayer
+              speed={-90}
+              className="hidden lg:block absolute right-[14%] bottom-[18%] pointer-events-none"
+            >
+              <div
+                aria-hidden="true"
+                className="w-5 h-5 rounded-full bg-orchid animate-float [animation-delay:-4s] shadow-glow-orchid"
+              />
+            </ParallaxLayer>
           </div>
 
-          <div className="order-2 lg:order-1 relative z-10 w-[92%] lg:w-auto mx-auto lg:mx-0 lg:ml-[max(4vw,2.5rem)] lg:mr-0 py-14 sm:py-16 lg:py-24 flex flex-col gap-6">
-            <Eyebrow>
-              Chicago · In memory of Nina Mastro · Since {site.founded}
-            </Eyebrow>
-            <h1 className="text-[2.7rem] sm:text-[3.4rem] lg:text-[5.1rem] leading-[0.99] tracking-[-0.03em]">
-              Cancer takes enough.
+          {/* Front plane — the words. */}
+          <ParallaxLayer
+            speed={-70}
+            fadeTo={0.15}
+            className="order-2 lg:order-1 relative z-10 w-[92%] lg:w-auto mx-auto lg:mx-0 lg:ml-[max(4vw,2.5rem)] lg:mr-0 py-12 sm:py-16 lg:py-24 flex flex-col justify-center gap-7"
+          >
+            <Reveal y={16}>
+              <Eyebrow>
+                Chicago · In memory of Nina Mastro · Since {site.founded}
+              </Eyebrow>
+            </Reveal>
+            <h1 className="font-black text-[3.05rem] sm:text-[4.4rem] lg:text-[clamp(3.8rem,5.35vw,6.2rem)] leading-[0.93] tracking-[-0.045em]">
+              <RevealText text="Cancer takes enough." delay={0.1} />
               <br />
-              <span className="text-plum">
-                It shouldn&apos;t take the rent, too.
-              </span>
+              <RevealText
+                text="It shouldn’t take the rent, too."
+                delay={0.4}
+                className="italic font-normal text-orchid text-glow"
+              />
             </h1>
-            <p className="text-lg sm:text-xl text-ink-soft max-w-[40ch] leading-relaxed">
-              We&apos;re a group of lifelong Chicago friends who lost Nina to
-              pancreatic cancer. Every year we throw a party and hand everything we
-              raise to one family.
-            </p>
+            <Reveal delay={0.55} y={24}>
+              <p className="text-lg sm:text-xl text-ink-soft max-w-[42ch] leading-relaxed">
+                We&apos;re a group of lifelong Chicago friends who lost Nina to
+                pancreatic cancer. Every year we throw a party and hand everything we
+                raise to one family.
+              </p>
+            </Reveal>
 
             {/* One button, not two competing ones. */}
-            <div className="flex flex-wrap items-center gap-x-7 gap-y-4 pt-1">
-              <Button href="/give" variant="primary" size="lg">
+            <Reveal
+              delay={0.65}
+              y={20}
+              className="flex flex-wrap items-center gap-x-7 gap-y-4 pt-1"
+            >
+              <Button href="/give" variant="gold" size="lg">
                 Donate
                 <svg
                   width="16"
@@ -104,70 +178,104 @@ export default function HomePage() {
               </Button>
               <Link
                 href="/get-involved"
-                className="font-semibold text-ink-soft no-underline border-b-2 border-gold-bright pb-0.5 hover:text-plum"
+                className="font-mono text-[13px] uppercase tracking-[0.14em] text-ink-soft no-underline border-b border-gold-bright pb-1 transition-colors duration-300 hover:text-gold-bright"
               >
                 Other ways to help
               </Link>
-            </div>
+            </Reveal>
 
-            {/* The numbers ride on the seam, and $95,000 is finally the
-                biggest thing on the page. */}
-            <div className="mt-4 lg:mt-8 lg:w-[118%] bg-card rounded-2xl shadow-lift overflow-hidden grid grid-cols-2 sm:grid-cols-[1.5fr_1fr_1fr]">
-              <div className="col-span-2 sm:col-span-1 flex flex-col gap-0.5 px-7 py-6 bg-plum">
-                <span className="font-display text-[2.6rem] sm:text-[3.1rem] font-semibold leading-none tracking-[-0.02em] text-paper tabular">
-                  {impact.headline.value}
-                </span>
-                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/70">
+            {/* The numbers ride on the seam, and $95,000 is the biggest thing
+                on the page. */}
+            <Reveal
+              delay={0.75}
+              className="mt-2 lg:mt-6 lg:w-[116%] bg-card/70 backdrop-blur-md border border-line-strong/60 rounded-3xl shadow-lift overflow-hidden grid grid-cols-2 sm:grid-cols-[1.5fr_1fr_1fr]"
+            >
+              <div className="col-span-2 sm:col-span-1 flex flex-col gap-1.5 px-7 py-6 bg-gradient-to-br from-plum to-[#3A1763]">
+                <CountUp
+                  value={impact.headline.value}
+                  className="font-display text-[2.8rem] sm:text-[3.4rem] font-black leading-none tracking-[-0.03em] text-paper tabular"
+                />
+                <span className="font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-paper/70">
                   {impact.headline.label}
                 </span>
               </div>
               {impact.secondary.map((stat, i) => (
                 <div
                   key={stat.label}
-                  className={`flex flex-col gap-0.5 px-6 py-6 border-t sm:border-t-0 border-line ${
-                    i === 0 ? "sm:border-r" : ""
+                  className={`flex flex-col gap-1.5 px-6 py-6 border-t sm:border-t-0 border-line ${
+                    i === 0 ? "border-r" : ""
                   }`}
                 >
-                  <span className="font-display text-[2.2rem] font-semibold leading-tight tracking-[-0.02em] text-ink tabular">
-                    {stat.value}
-                  </span>
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">
+                  <CountUp
+                    value={stat.value}
+                    className="font-display text-[2.3rem] font-bold leading-tight tracking-[-0.02em] text-ink tabular"
+                  />
+                  <span className="font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-muted">
                     {stat.label}
                   </span>
                 </div>
               ))}
-            </div>
+            </Reveal>
 
-            <p className="text-sm text-muted flex flex-wrap items-center gap-x-2 gap-y-1">
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 16 16"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-                className="text-gold"
-              >
-                <path d="M2.5 8.5l3.5 3.5 7.5-8" />
-              </svg>
-              <span>Registered 501(c)(3)</span>
-              <span aria-hidden="true">·</span>
-              <span className="tabular">EIN {site.ein}</span>
-              <span aria-hidden="true">·</span>
-              <span>Every gift is tax-deductible</span>
-            </p>
-          </div>
+            <Reveal delay={0.85} y={12}>
+              <p className="font-mono text-[12px] text-muted flex flex-wrap items-center gap-x-2 gap-y-1">
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  className="text-gold"
+                >
+                  <path d="M2.5 8.5l3.5 3.5 7.5-8" />
+                </svg>
+                <span>Registered 501(c)(3)</span>
+                <span aria-hidden="true">·</span>
+                <span className="tabular">EIN {site.ein}</span>
+                <span aria-hidden="true">·</span>
+                <span>Every gift is tax-deductible</span>
+              </p>
+            </Reveal>
+          </ParallaxLayer>
         </div>
-      </section>
+      </ParallaxScene>
+
+      {/* ------------------------------------------------------------ marquee */}
+      <div
+        aria-hidden="true"
+        className="overflow-hidden border-b border-line bg-ground-2/60 py-5 sm:py-7"
+      >
+        <div className="marquee-track">
+          {[0, 1].map((copy) => (
+            <div key={copy} className="flex shrink-0 items-center">
+              {[
+                `${impact.headline.value} ${impact.headline.label}`,
+                ...impact.secondary.map((s) => `${s.value} ${s.label}`),
+                site.tagline,
+                `Chicago, since ${site.founded}`,
+              ].map((item) => (
+                <span key={item} className="flex items-center">
+                  <span className="font-display italic text-3xl sm:text-5xl tracking-[-0.03em] text-ink/90 px-6 sm:px-10 whitespace-nowrap">
+                    {item}
+                  </span>
+                  <span className="text-gold-bright text-xl sm:text-2xl">✦</span>
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* ------------------------------------------------------ this year's family */}
       {currentCampaign.active ? (
         <Section tone="paper">
           <Container>
-            <Card className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-12 lg:p-10 items-center">
+            <Reveal>
+            <Card tilt={false} className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-12 lg:p-10 items-center">
               <Photo
                 src={currentCampaign.photo || undefined}
                 alt={clean(currentCampaign.recipientName)}
@@ -188,7 +296,7 @@ export default function HomePage() {
                 {showProgress ? (
                   <div className="flex flex-col gap-2">
                     <div className="flex justify-between items-baseline text-sm font-semibold">
-                      <span className="text-plum tabular text-lg">
+                      <span className="text-orchid tabular text-lg">
                         {usd(currentCampaign.raised)} raised
                       </span>
                       <span className="text-muted tabular">
@@ -221,6 +329,7 @@ export default function HomePage() {
                 </div>
               </div>
             </Card>
+            </Reveal>
           </Container>
         </Section>
       ) : null}
@@ -234,17 +343,19 @@ export default function HomePage() {
             lede="Money helps most, but it isn't the only thing that matters. Pick whichever of these fits your week."
           />
           <div className="grid gap-6 sm:grid-cols-2">
-            {waysToHelp.map((way) => (
-              <Card key={way.title} className="flex flex-col gap-3">
-                <h3 className="text-2xl">{way.title}</h3>
+            {waysToHelp.map((way, i) => (
+              <Reveal key={way.title} delay={i * 0.09} className="h-full">
+              <Card className="flex flex-col gap-3 h-full">
+                <h3 className="text-3xl sm:text-4xl">{way.title}</h3>
                 <p className="text-ink-soft leading-relaxed">{way.body}</p>
                 <Link
                   href={way.cta.href}
-                  className="mt-auto pt-3 no-underline font-semibold text-plum hover:text-gold text-[15px]"
+                  className="mt-auto pt-3 no-underline font-mono text-[13px] uppercase tracking-[0.12em] text-orchid transition-colors duration-300 hover:text-gold-bright"
                 >
                   {way.cta.label} →
                 </Link>
               </Card>
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -272,8 +383,8 @@ export default function HomePage() {
           <Photo alt="Nina with her friends" label="Nina and the crew" ratio="4/5" />
           <div className="flex flex-col gap-6">
             <Eyebrow>Why we&apos;re here</Eyebrow>
-            <h2 className="text-3xl sm:text-4xl lg:text-[2.9rem]">
-              It started with one friend, and a promise.
+            <h2 className="text-[2.4rem] sm:text-5xl lg:text-[4rem]">
+              <RevealText text="It started with one friend, and a promise." />
             </h2>
             <div className="flex flex-col gap-5 text-[17.5px] text-ink-soft leading-relaxed max-w-[58ch]">
               <p>
@@ -356,13 +467,15 @@ export default function HomePage() {
                 title: "We hand it over",
                 body: "Everything raised across the year goes to that family. We tell you who they are and what your night out paid for.",
               },
-            ].map((s) => (
-              <li key={s.step} className="flex flex-col gap-3 pt-5 border-t-2 border-gold-bright">
-                <span className="text-[13px] font-semibold uppercase tracking-[0.12em] text-gold tabular">
+            ].map((s, i) => (
+              <li key={s.step} className="border-t border-gold-bright/70">
+                <Reveal delay={i * 0.12} className="flex flex-col gap-3 pt-6">
+                <span className="font-mono text-[12px] font-medium uppercase tracking-[0.2em] text-gold tabular">
                   {s.step}
                 </span>
                 <h3 className="text-xl">{s.title}</h3>
                 <p className="text-muted leading-relaxed text-[15.5px]">{s.body}</p>
+                </Reveal>
               </li>
             ))}
           </ol>
@@ -396,7 +509,7 @@ export default function HomePage() {
                       href={s.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="no-underline text-ink hover:text-plum"
+                      className="no-underline text-ink hover:text-orchid"
                     >
                       {s.name}
                     </a>
@@ -417,10 +530,12 @@ export default function HomePage() {
 
       {/* ------------------------------------------------------------ closing CTA */}
       <Section tone="plum">
-        <Container className="flex flex-col gap-6 items-start max-w-3xl">
+        <Container className="flex flex-col gap-8 items-start">
           <Eyebrow tone="paper">One family at a time</Eyebrow>
-          <h2 className="text-3xl sm:text-4xl lg:text-[3rem] text-paper">
-            For as long as it takes.
+          <h2 className="font-black text-[3rem] sm:text-7xl lg:text-[7.5rem] leading-[0.9] tracking-[-0.05em] text-paper">
+            <RevealText text="For as long" />
+            <br />
+            <RevealText text="as it takes." delay={0.2} className="italic font-normal text-gold-bright" />
           </h2>
           <p className="text-lg text-paper/85 max-w-[52ch] leading-relaxed">
             Give once, give every year, or just turn up to the Block Party and buy a

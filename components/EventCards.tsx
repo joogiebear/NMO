@@ -1,3 +1,4 @@
+import { TiltCard } from "@/components/motion";
 import { Button, Eyebrow, Photo } from "./ui";
 import type { NmoEvent } from "@/content/events";
 import { clean, eventDateParts, formatEventDate } from "@/lib/format";
@@ -19,7 +20,7 @@ export function EventPoster({
 
   return (
     <article
-      className={`relative overflow-hidden rounded-2xl bg-plum text-paper min-h-[440px] ${
+      className={`relative overflow-hidden rounded-3xl bg-gradient-to-br from-plum via-[#4A2080] to-plum-deep border border-orchid/25 shadow-lift text-paper min-h-[440px] ${
         wide ? "lg:grid lg:grid-cols-[1fr_0.8fr]" : "flex flex-col"
       }`}
     >
@@ -135,7 +136,8 @@ export function EventPoster({
 /** Everything that isn't next. Quiet on purpose. */
 export function EventCard({ event }: { event: NmoEvent }) {
   return (
-    <article className="rounded-2xl bg-card border border-line overflow-hidden flex flex-col h-full">
+    <TiltCard className="rounded-3xl h-full">
+    <article className="rounded-3xl bg-card/80 backdrop-blur-sm border border-line overflow-hidden flex flex-col h-full">
       {event.photo ? (
         <Photo
           src={event.photo}
@@ -171,5 +173,6 @@ export function EventCard({ event }: { event: NmoEvent }) {
         </div>
       </div>
     </article>
+    </TiltCard>
   );
 }

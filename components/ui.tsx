@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Magnetic, Reveal, RevealText, TiltCard } from "@/components/motion";
 
 export function Container({
   children,
@@ -26,16 +27,26 @@ export function Section({
   tone?: "paper" | "band" | "plum" | "wash";
   className?: string;
 }) {
+  // Sections no longer paint a flat ground of their own. Each one names the
+  // colour the *page* should settle on while it has focus, and GroundShift
+  // cross-fades the body to it.
   const tones = {
-    paper: "bg-paper text-ink",
-    band: "bg-band text-ink",
-    plum: "bg-plum text-paper",
+    paper: "text-ink",
+    band: "text-ink border-y border-line/60",
+    plum: "warm-wash text-paper",
     wash: "warm-wash text-ink",
+  };
+  const grounds = {
+    paper: "#0D0812",
+    band: "#1A0D26",
+    plum: "#2B1247",
+    wash: "#120A18",
   };
   return (
     <section
       id={id}
-      className={`${tones[tone]} py-16 sm:py-20 lg:py-28 ${className}`}
+      data-ground={grounds[tone]}
+      className={`relative ${tones[tone]} py-20 sm:py-24 lg:py-36 ${className}`}
     >
       {children}
     </section>
@@ -51,13 +62,14 @@ export function Eyebrow({
 }) {
   const tones = {
     gold: "text-gold",
-    plum: "text-plum",
+    plum: "text-orchid",
     paper: "text-paper/80",
   };
   return (
     <p
-      className={`text-xs font-semibold uppercase tracking-[0.16em] ${tones[tone]}`}
+      className={`font-mono text-[11px] sm:text-xs font-medium uppercase tracking-[0.22em] flex items-center gap-3 ${tones[tone]}`}
     >
+      <span aria-hidden="true" className="h-px w-8 bg-current opacity-60" />
       {children}
     </p>
   );
@@ -78,16 +90,24 @@ export function SectionHead({
 }) {
   return (
     <div
-      className={`flex flex-col gap-4 max-w-2xl ${center ? "mx-auto text-center" : ""}`}
+      className={`flex flex-col gap-5 max-w-3xl ${center ? "mx-auto text-center items-center" : ""}`}
     >
-      {eyebrow ? <Eyebrow tone={tone}>{eyebrow}</Eyebrow> : null}
-      <h2 className="text-3xl sm:text-4xl lg:text-[2.9rem]">{title}</h2>
+      {eyebrow ? (
+        <Reveal y={16}>
+          <Eyebrow tone={tone}>{eyebrow}</Eyebrow>
+        </Reveal>
+      ) : null}
+      <h2 className="text-[2.4rem] sm:text-5xl lg:text-[4rem]">
+        <RevealText text={title} />
+      </h2>
       {lede ? (
-        <p
-          className={`text-lg leading-relaxed ${tone === "paper" ? "text-paper/85" : "text-ink-soft"}`}
-        >
-          {lede}
-        </p>
+        <Reveal delay={0.15} y={24}>
+          <p
+            className={`text-lg leading-relaxed max-w-[58ch] ${tone === "paper" ? "text-paper/85" : "text-ink-soft"}`}
+          >
+            {lede}
+          </p>
+        </Reveal>
       ) : null}
     </div>
   );
@@ -104,13 +124,13 @@ type ButtonProps = {
 };
 
 const buttonBase =
-  "inline-flex items-center justify-center gap-2 rounded-full font-sans font-semibold no-underline transition-[transform,background-color,border-color,color] duration-150 hover:-translate-y-px disabled:opacity-60 disabled:hover:translate-y-0 disabled:cursor-not-allowed";
+  "inline-flex items-center justify-center gap-2 rounded-full font-sans font-semibold no-underline transition-[background-color,border-color,color,box-shadow] duration-300 disabled:opacity-60 disabled:cursor-not-allowed";
 
 const buttonVariants = {
-  primary: "bg-plum text-paper shadow-soft hover:bg-plum-deep",
-  gold: "bg-gold-bright text-plum-deep shadow-soft hover:bg-gold hover:text-paper",
-  ghost: "border-2 border-line-strong text-ink hover:border-plum hover:text-plum",
-  onPlum: "border-2 border-paper/45 text-paper hover:bg-paper hover:text-plum",
+  primary: "bg-plum text-paper shadow-soft hover:bg-[#8345C4] hover:shadow-glow-orchid",
+  gold: "bg-gold-bright text-plum-deep shadow-soft hover:bg-[#FFD68A] hover:shadow-glow-gold",
+  ghost: "border border-line-strong text-ink hover:border-orchid hover:text-orchid hover:shadow-glow-orchid",
+  onPlum: "border border-paper/45 text-paper hover:bg-paper hover:text-plum-deep",
 };
 
 export function Button({
@@ -125,48 +145,96 @@ export function Button({
   const sizing = size === "lg" ? "px-7 py-3.5 text-base" : "px-5 py-2.5 text-[15px]";
   const classes = `${buttonBase} ${buttonVariants[variant]} ${sizing} ${className}`;
 
-  if (href) {
-    const external = href.startsWith("http") || href.startsWith("mailto:");
-    if (external) {
-      return (
-        <a
-          className={classes}
-          href={href}
-          {...(href.startsWith("http")
-            ? { target: "_blank", rel: "noopener noreferrer" }
-            : {})}
-        >
-          {children}
-        </a>
-      );
-    }
-    return (
-      <Link className={classes} href={href}>
-        {children}
-      </Link>
-    );
-  }
-
-  return (
+  const external = href?.startsWith("http") || href?.startsWith("mailto:");
+  const control = !href ? (
     <button className={classes} type={type} disabled={disabled}>
       {children}
     </button>
+  ) : external ? (
+    <a
+      className={classes}
+      href={href}
+      {...(href.startsWith("http")
+        ? { target: "_blank", rel: "noopener noreferrer" }
+        : {})}
+    >
+      {children}
+    </a>
+  ) : (
+    <Link className={classes} href={href}>
+      {children}
+    </Link>
   );
+
+  return <Magnetic className="shrink-0">{control}</Magnetic>;
 }
 
 export function Card({
   children,
   className = "",
+  tilt = true,
 }: {
   children: ReactNode;
   className?: string;
+  /** Turn the lean off for cards people type into; the cursor light stays. */
+  tilt?: boolean;
 }) {
   return (
-    <div
-      className={`bg-card border border-line rounded-2xl p-6 sm:p-7 shadow-soft ${className}`}
+    <TiltCard
+      tilt={tilt}
+      className={`bg-card/80 backdrop-blur-sm border border-line rounded-3xl p-6 sm:p-8 shadow-soft ${className}`}
     >
       {children}
-    </div>
+    </TiltCard>
+  );
+}
+
+/**
+ * The opening of every page except home: drifting light, a mono eyebrow, and
+ * a headline that rises in word by word. `children` sits under the lede —
+ * trust bullets on /give, jump links on /get-involved.
+ */
+export function PageHeader({
+  eyebrow,
+  title,
+  lede,
+  children,
+}: {
+  eyebrow: string;
+  title: string;
+  lede?: ReactNode;
+  children?: ReactNode;
+}) {
+  return (
+    <section
+      data-ground="#120A18"
+      className="relative overflow-hidden grain border-b border-line"
+    >
+      <div aria-hidden="true" className="aurora" />
+      <div aria-hidden="true" className="halftone absolute inset-0 opacity-40 [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" />
+      <Container className="relative pt-20 pb-16 sm:pt-28 sm:pb-24">
+        <div className="flex flex-col gap-6 max-w-4xl">
+          <Reveal y={16}>
+            <Eyebrow>{eyebrow}</Eyebrow>
+          </Reveal>
+          <h1 className="text-[2.9rem] sm:text-6xl lg:text-[5.4rem] leading-[0.96] tracking-[-0.04em]">
+            <RevealText text={title} delay={0.1} />
+          </h1>
+          {lede ? (
+            <Reveal delay={0.35} y={24}>
+              <p className="text-lg sm:text-xl text-ink-soft leading-relaxed max-w-[54ch]">
+                {lede}
+              </p>
+            </Reveal>
+          ) : null}
+          {children ? (
+            <Reveal delay={0.5} y={20}>
+              {children}
+            </Reveal>
+          ) : null}
+        </div>
+      </Container>
+    </section>
   );
 }
 
@@ -215,7 +283,7 @@ export function Photo({
   if (variant === "panel") {
     return (
       <div
-        className={`flex flex-col justify-end gap-2.5 p-8 bg-[linear-gradient(200deg,#E2CFEC_0%,#F6DFB6_56%,#EADFD4_100%)] ${className}`}
+        className={`flex flex-col justify-end gap-2.5 p-8 bg-[linear-gradient(200deg,#3A1D57_0%,#5A2E4A_52%,#2A1609_100%)] ${className}`}
         style={sizing}
         role="img"
         aria-label={`Photo placeholder: ${alt}`}

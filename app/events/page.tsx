@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Button, Card, Container, Eyebrow, Section, SectionHead } from "@/components/ui";
+import { Button, Card, Container, PageHeader, Section, SectionHead } from "@/components/ui";
 import { EventCard, EventPoster } from "@/components/EventCards";
 import { events } from "@/content/events";
 import { clean, formatEventDate, splitEvents } from "@/lib/format";
@@ -15,21 +15,17 @@ export default function EventsPage() {
 
   return (
     <>
-      <section className="warm-wash border-b border-line">
-        <Container className="py-14 sm:py-20">
-          <div className="flex flex-col gap-5 max-w-3xl">
-            <Eyebrow>Events</Eyebrow>
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.6rem]">
-              Come out. Bring people. That&apos;s the whole ask.
-            </h1>
-            <p className="text-lg sm:text-xl text-ink-soft leading-relaxed max-w-[54ch]">
-              Our fundraising happens in bars, on blocks and on parade routes — in
+      <PageHeader
+        eyebrow="Events"
+        title="Come out. Bring people. That’s the whole ask."
+        lede={
+          <>
+            Our fundraising happens in bars, on blocks and on parade routes — in
               person, in Chicago, all year long. You don&apos;t need to know anybody to
               turn up. You&apos;ll know people by the end of it.
-            </p>
-          </div>
-        </Container>
-      </section>
+          </>
+        }
+      />
 
       <Section tone="paper">
         <Container className="flex flex-col gap-10">

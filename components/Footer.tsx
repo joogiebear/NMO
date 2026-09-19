@@ -29,7 +29,7 @@ export function Footer() {
   const storeUrl = hasStore(site.store.url) ? site.store.url : null;
 
   return (
-    <footer className="bg-plum-deep text-paper">
+    <footer className="relative overflow-hidden bg-[#08050B] border-t border-line text-paper">
       <Container className="py-14 lg:py-16">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
           <div className="flex flex-col gap-4">
@@ -124,7 +124,14 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-paper/15 flex flex-wrap gap-x-6 gap-y-2 justify-between text-[13px] text-paper/60">
+        <p
+          aria-hidden="true"
+          className="mt-14 -mb-[0.08em] font-display italic font-black text-outline text-[17vw] lg:text-[13rem] leading-[0.85] whitespace-nowrap select-none pointer-events-none"
+        >
+          Nina Mastro
+        </p>
+
+        <div className="pt-6 border-t border-paper/15 font-mono flex flex-wrap gap-x-6 gap-y-2 justify-between text-[13px] text-paper/60">
           <span>
             © {year} {site.name}. A registered 501(c)(3) non-profit · EIN{" "}
             <span className="tabular">{site.ein}</span>

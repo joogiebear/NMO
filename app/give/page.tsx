@@ -1,12 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Button,
-  Card,
-  Container,
-  Eyebrow,
-  Section,
-  SectionHead,
-} from "@/components/ui";
+import { Button, Card, Container, Eyebrow, PageHeader, Section, SectionHead } from "@/components/ui";
 import { giftAmounts, givingMethods, site, sponsorTiers } from "@/content/site";
 import { clean, hasStore, usd } from "@/lib/format";
 
@@ -45,32 +38,29 @@ export default function GivePage() {
 
   return (
     <>
-      <section className="warm-wash border-b border-line">
-        <Container className="py-14 sm:py-20">
-          <div className="flex flex-col gap-5 max-w-3xl">
-            <Eyebrow>Ways to give</Eyebrow>
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.6rem]">
-              Give however is easiest for you.
-            </h1>
-            <p className="text-lg sm:text-xl text-ink-soft leading-relaxed max-w-[54ch]">
-              We take donations all year round, not just at events. Whatever you send
+      <PageHeader
+        eyebrow="Ways to give"
+        title="Give however is easiest for you."
+        lede={
+          <>
+            We take donations all year round, not just at events. Whatever you send
               goes toward the family we&apos;re raising for — and we&apos;ll get you a
               receipt for your taxes.
-            </p>
-            <ul className="list-none p-0 m-0 flex flex-wrap gap-x-6 gap-y-2 text-[15px] text-ink-soft pt-1">
-              <li className="flex items-center gap-2">
-                <Check /> Registered 501(c)(3)
-              </li>
-              <li className="flex items-center gap-2">
-                <Check /> Tax-deductible
-              </li>
-              <li className="flex items-center gap-2">
-                <Check /> Run entirely by volunteers
-              </li>
-            </ul>
-          </div>
-        </Container>
-      </section>
+          </>
+        }
+      >
+        <ul className="list-none p-0 m-0 flex flex-wrap gap-x-6 gap-y-2 text-[15px] text-ink-soft pt-1">
+          <li className="flex items-center gap-2">
+            <Check /> Registered 501(c)(3)
+          </li>
+          <li className="flex items-center gap-2">
+            <Check /> Tax-deductible
+          </li>
+          <li className="flex items-center gap-2">
+            <Check /> Run entirely by volunteers
+          </li>
+        </ul>
+      </PageHeader>
 
       <Section tone="paper">
         <Container className="flex flex-col gap-10">
@@ -89,7 +79,7 @@ export default function GivePage() {
                   </span>
                   <h3 className="text-2xl">{method.name}</h3>
                   <p className="text-ink-soft leading-relaxed">{method.blurb}</p>
-                  <p className="rounded-xl bg-plum-tint text-plum font-semibold px-4 py-3 break-words">
+                  <p className="rounded-xl bg-plum-tint text-orchid font-semibold px-4 py-3 break-words">
                     {clean(method.detail)}
                   </p>
                   <p className="text-[14.5px] text-muted leading-relaxed">{method.note}</p>
@@ -115,7 +105,7 @@ export default function GivePage() {
               {giftAmounts.map((amount) => (
                 <li
                   key={amount}
-                  className="rounded-full border-2 border-line-strong px-5 py-2 font-display text-lg font-semibold text-plum tabular"
+                  className="rounded-full border-2 border-line-strong px-5 py-2 font-display text-lg font-semibold text-orchid tabular"
                 >
                   {usd(amount)}
                 </li>
