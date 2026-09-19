@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Field, SubmitForm, TextArea } from "@/components/Form";
 import { Card, Container, PageHeader, Section } from "@/components/ui";
-import { site } from "@/content/site";
+import { getSite } from "@/lib/content";
 import { clean } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
     "Get in touch with the Nina Mastro Organization — a Chicago 501(c)(3) supporting families facing the financial burden of cancer.",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const site = await getSite();
   const email = clean(site.contact.email);
   const address = site.contact.mailingAddress.map(clean);
 

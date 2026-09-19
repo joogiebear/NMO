@@ -11,7 +11,9 @@ import {
   requireAdmin,
   startSession,
 } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 import { getContent, getHistoryVersion, saveContent, type ContentMap } from "@/lib/content";
+import { setHandled } from "@/lib/inbox";
 
 export type ActionResult = { ok: boolean; message: string };
 
@@ -64,6 +66,12 @@ export async function setRaised(_prev: ActionResult | null, formData: FormData):
     console.error("[admin] setRaised failed:", err);
     return { ok: false, message: "Couldn’t save just now. Try again." };
   }
+}
+
+export async function markSubmission(formData: FormData): Promise<void> {
+  await requireAdmin();
+  await setHandled(Number(formData.get("id")), formData.get("handled") === "true");
+  revalidatePath("/admin/inbox");
 }
 
 export async function restoreVersion(formData: FormData): Promise<void> {

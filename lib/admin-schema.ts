@@ -14,6 +14,8 @@ export type FieldType =
   | "url"
   | "photo"
   | "toggle"
+  /** A short list, typed one item per line. Stored as string[]. */
+  | "lines"
   | "hidden";
 
 export type Field = {
@@ -32,7 +34,12 @@ export type SectionKey =
   | "recipients"
   | "sponsors"
   | "board"
-  | "giving";
+  | "giving"
+  | "hero"
+  | "details"
+  | "tiers"
+  | "faqs"
+  | "extras";
 
 export type SectionDef = {
   key: SectionKey;
@@ -49,6 +56,23 @@ export type SectionDef = {
 };
 
 export const sections: SectionDef[] = [
+  {
+    key: "hero",
+    title: "Home page headline",
+    blurb: "The big words at the very top of the site, and the sentence under them.",
+    appearsOn: { label: "Home page", href: "/" },
+    kind: "object",
+    fields: [
+      { name: "line1", label: "First line", type: "text", required: true, placeholder: "Cancer takes enough." },
+      {
+        name: "line2",
+        label: "Second line (shown in purple italics)",
+        type: "text",
+        placeholder: "It shouldn’t take the rent, too.",
+      },
+      { name: "intro", label: "The sentence underneath", type: "textarea" },
+    ],
+  },
   {
     key: "campaign",
     title: "This year’s family",
@@ -197,6 +221,82 @@ export const sections: SectionDef[] = [
       { name: "note", label: "Small print", type: "text" },
     ],
   },
+  {
+    key: "tiers",
+    title: "Sponsorship levels",
+    blurb: "What a business gets at each level. Shown on the Ways to Give page.",
+    appearsOn: { label: "Ways to Give page", href: "/give" },
+    kind: "list",
+    itemLabel: "level",
+    itemTitleField: "name",
+    fields: [
+      { name: "name", label: "Level name", type: "text", required: true, placeholder: "Champion" },
+      { name: "amount", label: "Amount", type: "text", placeholder: "$500+" },
+      { name: "perks", label: "What they get", type: "lines", help: "One per line." },
+    ],
+  },
+  {
+    key: "faqs",
+    title: "Questions & answers",
+    blurb: "The common questions at the bottom of the Ways to Give page.",
+    appearsOn: { label: "Ways to Give page", href: "/give" },
+    kind: "list",
+    itemLabel: "question",
+    itemTitleField: "q",
+    fields: [
+      { name: "q", label: "Question", type: "text", required: true },
+      { name: "a", label: "Answer", type: "textarea", required: true },
+    ],
+  },
+  {
+    key: "extras",
+    title: "Volunteer jobs & gift amounts",
+    blurb: "The checkboxes on the volunteer form, and the suggested amounts on Ways to Give.",
+    appearsOn: { label: "Get Involved page", href: "/get-involved#volunteer" },
+    kind: "object",
+    fields: [
+      {
+        name: "volunteerRoles",
+        label: "Ways people can volunteer",
+        type: "lines",
+        help: "One per line. Each becomes a checkbox on the volunteer form.",
+      },
+      {
+        name: "giftAmounts",
+        label: "Suggested gift amounts",
+        type: "lines",
+        help: "One per line, numbers only — 25, 50, 100, 250.",
+      },
+    ],
+  },
+  {
+    key: "details",
+    title: "Contact details & links",
+    blurb: "Your email, mailing address, Facebook and Instagram, and the link to your shop.",
+    appearsOn: { label: "Contact page", href: "/contact" },
+    kind: "object",
+    fields: [
+      { name: "email", label: "Contact email", type: "text", placeholder: "info@ninam.org" },
+      { name: "phone", label: "Phone (optional)", type: "text" },
+      {
+        name: "mailingAddress",
+        label: "Mailing address",
+        type: "lines",
+        help: "One line per row, the way it should appear on an envelope.",
+      },
+      { name: "facebook", label: "Facebook page", type: "url", placeholder: "https://www.facebook.com/…" },
+      { name: "instagram", label: "Instagram", type: "url", placeholder: "https://www.instagram.com/…" },
+      {
+        name: "storeUrl",
+        label: "Link to your shop",
+        type: "url",
+        help: "Paste the link and a Shop button appears across the site. Leave empty to hide it.",
+      },
+      { name: "storeLabel", label: "What to call the shop link", type: "text", placeholder: "Shop" },
+      { name: "storeHeadline", label: "Shop headline", type: "text" },
+      { name: "storeBlurb", label: "Shop description", type: "text" },
+    ],
+  },
 ];
 
 export function getSection(key: string): SectionDef | undefined {
@@ -205,10 +305,12 @@ export function getSection(key: string): SectionDef | undefined {
 
 /* ---------------------------------------------------------------- cleaning */
 
-export type FormRecord = Record<string, string | number | boolean>;
+export type FormValue = string | number | boolean | string[];
+export type FormRecord = Record<string, FormValue>;
 
 const MAX_TEXT = 4000;
 const MAX_ITEMS = 200;
+const MAX_LINES = 40;
 // Uploaded media, or a file someone committed under public/.
 const PHOTO_PATH = /^\/(media\/[0-9a-f-]{36}|(photos|sponsors)\/[\w\-./]+)$/i;
 
@@ -220,8 +322,13 @@ function slugify(value: string): string {
     .slice(0, 60);
 }
 
-function cleanField(field: Field, raw: unknown): string | number | boolean {
+function cleanField(field: Field, raw: unknown): FormValue {
   switch (field.type) {
+    case "lines":
+      return (Array.isArray(raw) ? raw : String(raw ?? "").split("\n"))
+        .map((line) => String(line).trim().slice(0, 300))
+        .filter(Boolean)
+        .slice(0, MAX_LINES);
     case "toggle":
       return raw === true || raw === "true";
     case "number": {
@@ -271,7 +378,8 @@ export function sanitize(
 
   for (const record of records) {
     for (const field of def.fields) {
-      if (field.required && (record[field.name] === "" || record[field.name] === 0)) {
+      const v = record[field.name];
+      if (field.required && (v === "" || v === 0 || (Array.isArray(v) && v.length === 0))) {
         return { ok: false, error: `“${field.label}” can’t be empty.` };
       }
     }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { CheckboxGroup, Field, SubmitForm, TextArea } from "@/components/Form";
 import { Card, Container, PageHeader, Section, SectionHead } from "@/components/ui";
-import { site, volunteerRoles } from "@/content/site";
+import { getContent, getSite } from "@/lib/content";
 import { clean } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -16,7 +16,8 @@ const jump = [
   { href: "#sponsor", label: "Sponsor as a business" },
 ];
 
-export default function GetInvolvedPage() {
+export default async function GetInvolvedPage() {
+  const [site, { volunteerRoles }] = await Promise.all([getSite(), getContent("extras")]);
   const email = clean(site.contact.email);
 
   return (

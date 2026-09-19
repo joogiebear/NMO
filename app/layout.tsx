@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { GroundShift, MotionProvider, ScrollProgress } from "@/components/motion";
 import { site } from "@/content/site";
+import { getSite } from "@/lib/content";
 import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -37,9 +38,11 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // Contact details, social links and the shop link are edited in /admin.
+  const live = await getSite();
   const orgSchema = {
     "@context": "https://schema.org",
     "@type": "NGO",
@@ -54,7 +57,7 @@ export default function RootLayout({
       addressRegion: "IL",
       addressCountry: "US",
     },
-    sameAs: [site.social.facebook, site.social.instagram].filter(Boolean),
+    sameAs: [live.social.facebook, live.social.instagram].filter(Boolean),
   };
 
   return (
@@ -79,7 +82,7 @@ export default function RootLayout({
         <MotionProvider>
           <ScrollProgress />
           <GroundShift />
-          <Header />
+          <Header store={{ url: live.store.url, label: live.store.label }} />
           <main id="main" className="flex-1">
             {children}
           </main>

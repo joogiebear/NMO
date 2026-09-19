@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { Button, Container } from "./ui";
-import { site } from "@/content/site";
 import { hasStore } from "@/lib/format";
 
 const links = [
@@ -15,10 +14,10 @@ const links = [
   { href: "/get-involved", label: "Get Involved" },
 ];
 
-export function Header() {
+export function Header({ store }: { store: { url: string; label: string } }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const storeUrl = hasStore(site.store.url) ? site.store.url : null;
+  const storeUrl = hasStore(store.url) ? store.url : null;
 
   useEffect(() => {
     setOpen(false);
@@ -75,7 +74,7 @@ export function Header() {
               rel="noopener noreferrer"
               className="no-underline font-medium border-b-2 border-transparent pb-0.5 text-ink-soft hover:text-ink hover:border-gold-bright"
             >
-              {site.store.label}
+              {store.label}
             </a>
           ) : null}
         </nav>
@@ -140,7 +139,7 @@ export function Header() {
                 rel="noopener noreferrer"
                 className="no-underline text-ink font-display text-2xl py-3.5 border-b border-line"
               >
-                {site.store.label}
+                {store.label}
               </a>
             ) : null}
             <Link

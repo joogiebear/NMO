@@ -2,7 +2,13 @@
 
 import { useState, useTransition } from "react";
 import { saveSection, type ActionResult } from "@/app/admin/actions";
-import { getSection, type Field, type FormRecord, type SectionKey } from "@/lib/admin-schema";
+import {
+  getSection,
+  type Field,
+  type FormRecord,
+  type FormValue,
+  type SectionKey,
+} from "@/lib/admin-schema";
 
 const input =
   "w-full rounded-xl border border-line-strong bg-ground-2 px-4 py-3 text-ink placeholder:text-muted/60 focus:border-orchid focus:outline-none transition-colors";
@@ -91,10 +97,28 @@ function FieldInput({
   onChange,
 }: {
   field: Field;
-  value: string | number | boolean;
-  onChange: (v: string | number | boolean) => void;
+  value: FormValue;
+  onChange: (v: FormValue) => void;
 }) {
   if (field.type === "hidden") return null;
+
+  if (field.type === "lines") {
+    const lines = Array.isArray(value) ? value : [];
+    return (
+      <label className="flex flex-col gap-1.5">
+        <span className="text-[14px] font-semibold text-ink">{field.label}</span>
+        <textarea
+          rows={Math.max(4, lines.length + 1)}
+          className={`${input} resize-y`}
+          value={lines.join("\n")}
+          placeholder={field.placeholder}
+          // Kept as typed until it is saved; the server trims and drops blank lines.
+          onChange={(e) => onChange(e.target.value.split("\n"))}
+        />
+        {field.help ? <span className="text-[14px] text-muted">{field.help}</span> : null}
+      </label>
+    );
+  }
 
   if (field.type === "toggle") {
     return (
@@ -184,7 +208,8 @@ function RecordFields({
 function blank(fields: Field[]): FormRecord {
   const record: FormRecord = {};
   for (const f of fields) {
-    record[f.name] = f.type === "toggle" ? false : f.type === "number" ? 0 : "";
+    record[f.name] =
+      f.type === "toggle" ? false : f.type === "number" ? 0 : f.type === "lines" ? [] : "";
   }
   if ("year" in record) record.year = new Date().getFullYear();
   return record;

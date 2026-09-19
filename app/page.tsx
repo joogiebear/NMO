@@ -16,7 +16,7 @@ import {
   SectionHead,
 } from "@/components/ui";
 import { site } from "@/content/site";
-import { getContent } from "@/lib/content";
+import { getContent, getSite } from "@/lib/content";
 import { EventCard, EventPoster } from "@/components/EventCards";
 import { clean, hasStore, splitEvents, usd } from "@/lib/format";
 
@@ -45,7 +45,9 @@ const waysToHelp = [
 
 export default async function HomePage() {
   // Everything the organization edits for itself comes through /admin.
-  const [currentCampaign, impact, events, recipients, sponsors] = await Promise.all([
+  const [site, hero, currentCampaign, impact, events, recipients, sponsors] = await Promise.all([
+    getSite(),
+    getContent("hero"),
     getContent("campaign"),
     getContent("impact"),
     getContent("events"),
@@ -144,19 +146,21 @@ export default async function HomePage() {
               </Eyebrow>
             </Reveal>
             <h1 className="font-black text-[3.05rem] sm:text-[4.4rem] lg:text-[clamp(3.8rem,5.35vw,6.2rem)] leading-[0.93] tracking-[-0.045em]">
-              <RevealText text="Cancer takes enough." delay={0.1} />
-              <br />
-              <RevealText
-                text="It shouldn’t take the rent, too."
-                delay={0.4}
-                className="italic font-normal text-orchid text-glow"
-              />
+              <RevealText text={hero.line1} delay={0.1} />
+              {hero.line2 ? (
+                <>
+                  <br />
+                  <RevealText
+                    text={hero.line2}
+                    delay={0.4}
+                    className="italic font-normal text-orchid text-glow"
+                  />
+                </>
+              ) : null}
             </h1>
             <Reveal delay={0.55} y={24}>
               <p className="text-lg sm:text-xl text-ink-soft max-w-[42ch] leading-relaxed">
-                We&apos;re a group of lifelong Chicago friends who lost Nina to
-                pancreatic cancer. Every year we throw a party and hand everything we
-                raise to one family.
+                {hero.intro}
               </p>
             </Reveal>
 

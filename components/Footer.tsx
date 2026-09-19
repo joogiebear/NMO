@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Container } from "./ui";
-import { site } from "@/content/site";
+import { getSite } from "@/lib/content";
 import { hasStore } from "@/lib/format";
 
 const columns = [
@@ -23,7 +23,8 @@ const columns = [
   },
 ];
 
-export function Footer() {
+export async function Footer() {
+  const site = await getSite();
   const year = new Date().getFullYear();
   const email = site.contact.email.replace("TODO_", "");
   const storeUrl = hasStore(site.store.url) ? site.store.url : null;

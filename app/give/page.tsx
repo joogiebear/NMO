@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Button, Card, Container, Eyebrow, PageHeader, Section, SectionHead } from "@/components/ui";
-import { giftAmounts, site, sponsorTiers } from "@/content/site";
-import { getContent } from "@/lib/content";
+import { getContent, getSite } from "@/lib/content";
 import { clean, hasStore, usd } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -10,31 +9,14 @@ export const metadata: Metadata = {
     "Give by Venmo, bank quick pay or check. Every gift to the Nina Mastro Organization is tax-deductible and goes directly to a family fighting cancer.",
 };
 
-const faqs = [
-  {
-    q: "Where does my money actually go?",
-    a: "To one family, chosen each year by our board from nominations sent in by people like you. We're volunteers — nobody here takes a salary from what you give.",
-  },
-  {
-    q: "Is my donation tax-deductible?",
-    a: `Yes. We're a registered 501(c)(3) non-profit, EIN ${site.ein}. Ask us for a receipt any time and we'll send one — for a check, we mail it back automatically.`,
-  },
-  {
-    q: "Can I give in someone's memory, or in their honor?",
-    a: "Please do. Put the name in the note when you send it, or email us, and we'll make sure it's recognized properly.",
-  },
-  {
-    q: "Does my employer match gifts?",
-    a: "Many do, and it's the easiest way to double what you give. Send your company's matching form to us and we'll fill in our side.",
-  },
-  {
-    q: "I can't give money right now.",
-    a: "That's completely fine, and there's still a lot you can do. Come to an event, put together a raffle basket, nominate a family, buy something from the shop, or just share us with people who might give.",
-  },
-];
-
 export default async function GivePage() {
-  const givingMethods = await getContent("giving");
+  const [site, givingMethods, sponsorTiers, faqs, { giftAmounts }] = await Promise.all([
+    getSite(),
+    getContent("giving"),
+    getContent("tiers"),
+    getContent("faqs"),
+    getContent("extras"),
+  ]);
   const email = clean(site.contact.email);
   const storeUrl = hasStore(site.store.url) ? site.store.url : null;
 

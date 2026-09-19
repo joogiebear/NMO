@@ -47,6 +47,14 @@ export function ensureSchema(sql: Sql): Promise<void> {
         bytes      bytea not null,
         created_at timestamptz not null default now()
       )`;
+    await sql`
+      create table if not exists submissions (
+        id         bigserial primary key,
+        kind       text not null,
+        fields     jsonb not null,
+        handled    boolean not null default false,
+        created_at timestamptz not null default now()
+      )`;
   })().catch((err) => {
     globalForDb.nmoSchema = undefined;
     throw err;

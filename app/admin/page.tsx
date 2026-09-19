@@ -4,6 +4,7 @@ import { RaisedForm } from "@/components/admin/forms";
 import { getSection, sections } from "@/lib/admin-schema";
 import { requireAdmin } from "@/lib/auth";
 import { getContent, listHistory } from "@/lib/content";
+import { countUnhandled } from "@/lib/inbox";
 import { usd } from "@/lib/format";
 
 const when = new Intl.DateTimeFormat("en-US", {
@@ -18,10 +19,11 @@ export default async function AdminHome({
   searchParams: Promise<{ restored?: string }>;
 }) {
   await requireAdmin();
-  const [{ restored }, campaign, history] = await Promise.all([
+  const [{ restored }, campaign, history, waiting] = await Promise.all([
     searchParams,
     getContent("campaign", { strict: true }),
     listHistory(),
+    countUnhandled(),
   ]);
 
   return (
@@ -54,6 +56,25 @@ export default async function AdminHome({
         </p>
         <RaisedForm raised={campaign.raised} />
       </section>
+
+      <Link
+        href="/admin/inbox"
+        className="group flex flex-wrap items-center justify-between gap-4 rounded-3xl border border-orchid/30 bg-plum-tint/60 px-6 py-6 sm:px-8 no-underline transition-colors hover:border-orchid"
+      >
+        <span className="flex flex-col gap-1">
+          <span className="font-display text-2xl sm:text-3xl text-ink">Messages &amp; nominations</span>
+          <span className="text-ink-soft">
+            Everything people send through the website lands here.
+          </span>
+        </span>
+        <span
+          className={`rounded-full px-4 py-1.5 font-mono text-[13px] ${
+            waiting > 0 ? "bg-orchid text-plum-deep font-semibold" : "border border-line-strong text-muted"
+          }`}
+        >
+          {waiting > 0 ? `${waiting} new` : "Nothing new"}
+        </span>
+      </Link>
 
       <section className="flex flex-col gap-4">
         <h2 className="text-2xl sm:text-3xl">Everything else</h2>

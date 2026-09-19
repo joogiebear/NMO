@@ -3,9 +3,18 @@ import { unstable_cache, updateTag } from "next/cache";
 import { connection } from "next/server";
 import { board, type BoardMember } from "@/content/board";
 import { events, type NmoEvent } from "@/content/events";
+import { faqs, hero, type Faq } from "@/content/faqs";
 import { recipients, type Recipient } from "@/content/recipients";
 import { sponsors, type Sponsor } from "@/content/sponsors";
-import { currentCampaign, givingMethods, impact } from "@/content/site";
+import {
+  currentCampaign,
+  giftAmounts,
+  givingMethods,
+  impact,
+  site,
+  sponsorTiers,
+  volunteerRoles,
+} from "@/content/site";
 import { db, ensureSchema } from "@/lib/db";
 
 /**
@@ -42,7 +51,31 @@ export type GivingMethod = {
   note: string;
 };
 
+export type Hero = { line1: string; line2: string; intro: string };
+
+export type SponsorTier = { name: string; amount: string; perks: string[] };
+
+export type Extras = { volunteerRoles: string[]; giftAmounts: number[] };
+
+/** The editable slice of content/site.ts, kept flat so the form can be too. */
+export type Details = {
+  email: string;
+  phone: string;
+  mailingAddress: string[];
+  facebook: string;
+  instagram: string;
+  storeUrl: string;
+  storeLabel: string;
+  storeHeadline: string;
+  storeBlurb: string;
+};
+
 export type ContentMap = {
+  hero: Hero;
+  details: Details;
+  tiers: SponsorTier[];
+  faqs: Faq[];
+  extras: Extras;
   campaign: Campaign;
   impact: Impact;
   events: NmoEvent[];
@@ -55,6 +88,21 @@ export type ContentMap = {
 export type ContentKey = keyof ContentMap;
 
 export const contentDefaults: ContentMap = {
+  hero: { ...hero },
+  details: {
+    email: site.contact.email,
+    phone: site.contact.phone,
+    mailingAddress: [...site.contact.mailingAddress],
+    facebook: site.social.facebook,
+    instagram: site.social.instagram,
+    storeUrl: site.store.url,
+    storeLabel: site.store.label,
+    storeHeadline: site.store.headline,
+    storeBlurb: site.store.blurb,
+  },
+  tiers: sponsorTiers.map((t) => ({ ...t, perks: [...t.perks] })),
+  faqs,
+  extras: { volunteerRoles: [...volunteerRoles], giftAmounts: [...giftAmounts] },
   campaign: { ...currentCampaign },
   impact: {
     headline: { ...impact.headline },
@@ -103,6 +151,26 @@ export async function getContent<K extends ContentKey>(
     console.error(`[content] falling back to defaults for "${key}":`, err);
     return contentDefaults[key];
   }
+}
+
+/**
+ * content/site.ts with the admin's contact details, links and shop laid over
+ * it — the same shape pages already read, so they only swap where it comes from.
+ * The name, EIN and founding year stay in the file: they do not change.
+ */
+export async function getSite() {
+  const d = await getContent("details");
+  return {
+    ...site,
+    contact: { email: d.email, phone: d.phone, mailingAddress: d.mailingAddress },
+    social: { facebook: d.facebook, instagram: d.instagram },
+    store: {
+      url: d.storeUrl,
+      label: d.storeLabel || site.store.label,
+      headline: d.storeHeadline,
+      blurb: d.storeBlurb,
+    },
+  };
 }
 
 export type HistoryEntry = { id: number; key: ContentKey; note: string; savedAt: string };

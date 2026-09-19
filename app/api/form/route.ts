@@ -1,21 +1,46 @@
 import { NextResponse } from "next/server";
 import { site } from "@/content/site";
+import { saveSubmission, type SubmissionKind } from "@/lib/inbox";
 
 /**
  * Receives every form on the site (nominations, volunteers, sponsors, messages)
  * and forwards it wherever the organization wants it.
  *
- * Delivery is pluggable so nobody has to touch this file:
- *   RESEND_API_KEY + FORMS_TO_EMAIL  → sends an email
- *   FORMS_WEBHOOK_URL                → posts JSON anywhere (Zapier, Make, Sheets)
+ * Every submission is first saved to the admin inbox (/admin/inbox). On top of
+ * that, delivery is pluggable so nobody has to touch this file:
+ *   RESEND_API_KEY + FORMS_TO_EMAIL  → also sends an email
+ *   FORMS_WEBHOOK_URL                → also posts JSON anywhere (Zapier, Make, Sheets)
  *
- * With neither configured the route fails politely and the form tells the
- * visitor to email instead — nothing is silently dropped.
+ * A submission counts as received if it reached the inbox *or* was delivered.
+ * Only if neither happened does the form tell the visitor to email instead —
+ * nothing is silently dropped.
  */
 
 export const runtime = "nodejs";
 
 const MAX_FIELD_LENGTH = 5000;
+const MAX_FIELDS = 40;
+
+// The inbox is a database table, so the public form gets a simple per-visitor
+// limit to stop anyone filling it. Generous enough for a real person.
+const WINDOW_MS = 60 * 60 * 1000;
+const MAX_PER_WINDOW = 8;
+const recent = new Map<string, { count: number; resetAt: number }>();
+
+function tooMany(request: Request): boolean {
+  const key =
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
+    "unknown";
+  const now = Date.now();
+  const entry = recent.get(key);
+  if (!entry || entry.resetAt < now) {
+    recent.set(key, { count: 1, resetAt: now + WINDOW_MS });
+    return false;
+  }
+  entry.count += 1;
+  return entry.count > MAX_PER_WINDOW;
+}
 const LABELS: Record<string, string> = {
   nomination: "Family nomination",
   volunteer: "Volunteer sign-up",
@@ -58,6 +83,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "Unknown form." }, { status: 400 });
   }
 
+  if (Object.keys(payload).length > MAX_FIELDS) {
+    return NextResponse.json({ ok: false, error: "We couldn't read that." }, { status: 400 });
+  }
+
   const hasContent = Object.entries(payload).some(
     ([key, value]) => key !== "kind" && asText(value).trim() !== "",
   );
@@ -75,6 +104,26 @@ export async function POST(request: Request) {
         { status: 413 },
       );
     }
+  }
+
+  if (tooMany(request)) {
+    return NextResponse.json(
+      { ok: false, error: "That's a lot of messages — please email us instead." },
+      { status: 429 },
+    );
+  }
+
+  // Inbox first. A failure here is logged, not fatal: email may still deliver.
+  let stored = false;
+  try {
+    const fields = Object.fromEntries(
+      Object.entries(payload)
+        .filter(([key]) => key !== "kind" && key !== "company_website")
+        .map(([key, value]) => [key, asText(value)]),
+    );
+    stored = await saveSubmission(kind as SubmissionKind, fields);
+  } catch (error) {
+    console.error("[form] could not save to the inbox", error);
   }
 
   const body = render(kind, payload);
@@ -116,13 +165,17 @@ export async function POST(request: Request) {
     }
   } catch (error) {
     console.error("[form] delivery failed", error);
+    // It is safely in the inbox even though the email did not go.
+    if (stored) return NextResponse.json({ ok: true });
     return NextResponse.json(
       { ok: false, error: "We couldn't deliver that message." },
       { status: 502 },
     );
   }
 
-  console.warn("[form] no delivery method configured — submission not stored.\n", body);
+  if (stored) return NextResponse.json({ ok: true });
+
+  console.warn("[form] no inbox and no delivery method — submission not stored.\n", body);
   return NextResponse.json(
     { ok: false, error: "Our form isn't connected yet." },
     { status: 503 },

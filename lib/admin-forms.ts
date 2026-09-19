@@ -1,6 +1,6 @@
 import "server-only";
 import type { FormRecord, SectionKey } from "@/lib/admin-schema";
-import type { ContentMap, Impact } from "@/lib/content";
+import type { ContentMap, Extras, Impact } from "@/lib/content";
 
 /**
  * Most sections are stored in the same flat shape the form edits. The big
@@ -20,6 +20,13 @@ export function toForm<K extends SectionKey>(key: K, data: ContentMap[K]): FormR
       stat2Label: impact.secondary[1]?.label ?? "",
     };
   }
+  if (key === "extras") {
+    const extras = data as Extras;
+    return {
+      volunteerRoles: extras.volunteerRoles,
+      giftAmounts: extras.giftAmounts.map(String),
+    };
+  }
   return data as unknown as FormRecord | FormRecord[];
 }
 
@@ -37,6 +44,17 @@ export function fromForm<K extends SectionKey>(
       ].filter((s) => s.value !== ""),
     };
     return impact as ContentMap[K];
+  }
+  if (key === "extras") {
+    const f = form as FormRecord;
+    const extras: Extras = {
+      volunteerRoles: f.volunteerRoles as string[],
+      // "$25" and "25" both mean 25; anything that isn't a number is dropped.
+      giftAmounts: (f.giftAmounts as string[])
+        .map((line) => Math.round(Number(line.replace(/[^\d.]/g, ""))))
+        .filter((n) => Number.isFinite(n) && n > 0),
+    };
+    return extras as ContentMap[K];
   }
   return form as unknown as ContentMap[K];
 }
