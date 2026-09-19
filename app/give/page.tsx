@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Button, Card, Container, Eyebrow, PageHeader, Section, SectionHead } from "@/components/ui";
-import { giftAmounts, givingMethods, site, sponsorTiers } from "@/content/site";
+import { giftAmounts, site, sponsorTiers } from "@/content/site";
+import { getContent } from "@/lib/content";
 import { clean, hasStore, usd } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -32,7 +33,8 @@ const faqs = [
   },
 ];
 
-export default function GivePage() {
+export default async function GivePage() {
+  const givingMethods = await getContent("giving");
   const email = clean(site.contact.email);
   const storeUrl = hasStore(site.store.url) ? site.store.url : null;
 

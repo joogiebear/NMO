@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Button, Card, Container, Eyebrow, PageHeader, Photo, Section } from "@/components/ui";
 import { CountUp, RailNode, Reveal, ScrollRail } from "@/components/motion";
-import { recipients, type Recipient } from "@/content/recipients";
-import { impact } from "@/content/site";
+import type { Recipient } from "@/content/recipients";
+import { getContent } from "@/lib/content";
 import { clean, usd } from "@/lib/format";
 
 const NODE = "absolute -left-[39px] md:-left-[63px] top-4 md:top-7 w-3.5 h-3.5";
@@ -41,7 +41,11 @@ export const metadata: Metadata = {
     "Since 2019 the Nina Mastro Organization has given more than $95,000 to 21 families facing the financial weight of cancer. These are their stories.",
 };
 
-export default function RecipientsPage() {
+export default async function RecipientsPage() {
+  const [recipients, impact] = await Promise.all([
+    getContent("recipients"),
+    getContent("impact"),
+  ]);
   const stops = buildStops(recipients, new Date().getFullYear());
 
   return (

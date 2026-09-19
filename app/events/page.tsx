@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Button, Card, Container, PageHeader, Section, SectionHead } from "@/components/ui";
 import { EventCard, EventPoster } from "@/components/EventCards";
-import { events } from "@/content/events";
+import { getContent } from "@/lib/content";
 import { clean, formatEventDate, splitEvents } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
     "The Block Party at Shinnick's Pub, PurpleStride, Bunco night and more. Come out, bring people — that's how the money gets raised.",
 };
 
-export default function EventsPage() {
+export default async function EventsPage() {
+  const events = await getContent("events");
   const { upcoming, past } = splitEvents(events);
 
   return (

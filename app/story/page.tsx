@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Button, Card, Container, Eyebrow, PageHeader, Photo, Section, SectionHead } from "@/components/ui";
-import { board } from "@/content/board";
+import { getContent } from "@/lib/content";
 import { site } from "@/content/site";
 import { clean } from "@/lib/format";
 
@@ -10,9 +10,9 @@ export const metadata: Metadata = {
     "How the Nina Mastro Organization started: a diagnosis in 2015, a first fundraiser in 2019, and a promise a group of Chicago friends made to each other.",
 };
 
-const namedBoard = board.filter((m) => !m.name.startsWith("TODO_"));
-
-export default function StoryPage() {
+export default async function StoryPage() {
+  const board = await getContent("board");
+  const namedBoard = board.filter((m) => !m.name.startsWith("TODO_"));
   return (
     <>
       <PageHeader

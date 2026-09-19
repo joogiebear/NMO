@@ -15,11 +15,9 @@ import {
   Section,
   SectionHead,
 } from "@/components/ui";
-import { currentCampaign, impact, site } from "@/content/site";
-import { events } from "@/content/events";
+import { site } from "@/content/site";
+import { getContent } from "@/lib/content";
 import { EventCard, EventPoster } from "@/components/EventCards";
-import { recipients } from "@/content/recipients";
-import { sponsors } from "@/content/sponsors";
 import { clean, hasStore, splitEvents, usd } from "@/lib/format";
 
 const waysToHelp = [
@@ -45,7 +43,15 @@ const waysToHelp = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Everything the organization edits for itself comes through /admin.
+  const [currentCampaign, impact, events, recipients, sponsors] = await Promise.all([
+    getContent("campaign"),
+    getContent("impact"),
+    getContent("events"),
+    getContent("recipients"),
+    getContent("sponsors"),
+  ]);
   const { upcoming } = splitEvents(events);
   const storeUrl = hasStore(site.store.url) ? site.store.url : null;
   const nextEvents = upcoming.slice(0, 3);
